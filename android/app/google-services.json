@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "138087496034",
+    "project_id": "mentalawareness-healman",
+    "storage_bucket": "mentalawareness-healman.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138087496034:android:1575ed63dfb6a2d9c1943b",
+        "android_client_info": {
+          "package_name": "com.example.healman_mental_awareness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138087496034-pjdqp5pkai64pbrc03t7n6tfo7r5fqm3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.healman_mental_awareness",
+            "certificate_hash": "8df4b523f4a2c189a7cadbf91434530cb647d2fc"
+          }
+        },
+        {
+          "client_id": "138087496034-6parhvgomkb3cv9vpkr32le7b563cg1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArYONrcp9dfvO_RatPvx_v88W01ocBPoY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138087496034-6parhvgomkb3cv9vpkr32le7b563cg1f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "138087496034-fbgf4ah7jd3upd29sdkmmc2ooo02l4ko.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.healmanMentalAwareness"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
