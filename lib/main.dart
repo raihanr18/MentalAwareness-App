@@ -3,6 +3,7 @@ import 'package:healman_mental_awareness/pages/home.dart';
 
 // Pages
 import 'package:healman_mental_awareness/firebase_options.dart';
+import 'package:healman_mental_awareness/pages/index.dart';
 import 'package:healman_mental_awareness/pages/splash_screen.dart';
 
 // Provider (Backend)
@@ -39,13 +40,14 @@ class MyApp extends StatelessWidget {
           create: ((context) => InternetProvider()),
         ),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        // home: const SplashScreen(),
+        home: HomePage(),
 
-        // 
+        // For testing only
         routes: {
-          '/':(context) => const HomePage(),
+          // '/':(context) => const HomePage(),
+          // '/':(context) => const Index(),
         },
       ),
     );

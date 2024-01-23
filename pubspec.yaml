@@ -28,6 +28,7 @@ dependencies:
   rounded_loading_button: ^2.1.0
   font_awesome_icon_class: ^0.0.6
   salomon_bottom_bar: ^3.3.2
+  http: ^1.2.0
 
 dev_dependencies:
   flutter_test:
