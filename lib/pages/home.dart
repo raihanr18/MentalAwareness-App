@@ -1,47 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:healman_mental_awareness/pages/news_portal_widget.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: Colors.blue,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: 20),
-          Text(
-            'Nama Seseorang',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 10),
-          Text(
-            '"Setiap detik sangatlah berharga karena waktu mengetahui banyak hal, termasuk rahasia hati."',
-            style: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-          ),
-          SizedBox(height: 20),
-          Expanded(
-            child: Center(
-              child: NewsPortalWidget([
-                {
-                  'title':
-                      'Resolusi Kesehatan 2024 Warga RI, Ingin Hindari Overthinking',
-                  'link':
-                      'https://www.cnnindonesia.com/gaya-hidup/20240102131135-255-1044301/resolusi-kesehatan-2024-warga-ri-ingin-hindari-overthinking'
-                },
-                {
-                  'title':
-                      '5 Kebiasaan yang Bisa Menurunkan Risiko Terkena Depresi',
-                  'link':
-                      'https://www.cnnindonesia.com/gaya-hidup/20231228145506-284-1042701/5-kebiasaan-yang-bisa-menurunkan-risiko-terkena-depresi'
-                },
-              ]),
-            ),
-          ),
-        ],
+    return Scaffold(
+      appBar: AppBar(title: const Text('Halaman Home')),
+      body: Center(
+        child: _navBarItems[_selectedIndex].title,
       ),
+      bottomNavigationBar: SalomonBottomBar(
+          currentIndex: _selectedIndex,
+          selectedItemColor: const Color(0xff6200ee),
+          unselectedItemColor: const Color(0xff757575),
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          items: _navBarItems),
     );
   }
+
+  final _navBarItems = [
+  SalomonBottomBarItem(
+    icon: const Icon(Icons.home),
+    title: const Text("Home"),
+    selectedColor: Colors.blue,
+  ),
+  SalomonBottomBarItem(
+    icon: const Icon(Icons.favorite_border),
+    title: const Text("Meditasi"),
+    selectedColor: Colors.pink,
+  ),
+  SalomonBottomBarItem(
+    icon: const Icon(Icons.question_answer),
+    title: const Text("Quiz"),
+    selectedColor: Colors.orange,
+  ),
+];
 }

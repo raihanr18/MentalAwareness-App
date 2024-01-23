@@ -1,3 +1,6 @@
+// Maintain Page
+import 'package:healman_mental_awareness/pages/home.dart';
+
 // Pages
 import 'package:healman_mental_awareness/firebase_options.dart';
 import 'package:healman_mental_awareness/pages/splash_screen.dart';
@@ -36,9 +39,14 @@ class MyApp extends StatelessWidget {
           create: ((context) => InternetProvider()),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        // home: const SplashScreen(),
+
+        // 
+        routes: {
+          '/':(context) => const HomePage(),
+        },
       ),
     );
   }
