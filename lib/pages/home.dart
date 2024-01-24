@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/pages/meditasi.dart';
 import 'package:healman_mental_awareness/pages/news_portal.dart';
 import 'package:healman_mental_awareness/pages/quiz.dart';
+import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,74 +22,137 @@ class _HomePageState extends State<HomePage> {
     width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Container(
-          color: Colors.blue.shade100,
-          height: height,
-          width: width,
-          child: Column(
-            children: [
-              Container(
-                decoration: const BoxDecoration(),
-                height: height * 0.12,
-                width: width,
-                child: Column(
-                    children: [
-                      Padding(
+        color: Colors.blue.shade100,
+        height: height,
+        width: width,
+        child: Column(
+          children: [
+            Container(
+              decoration: const BoxDecoration(),
+              height: height * 0.12,
+              width: width,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 55,
+                      left: 15,
+                    ),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/logo_polos.png',
+                          width: 50,
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          'Healman',
+                          style: TextStyle(
+                            color: Colors.indigo.shade800,
+                            fontSize: 23,
+                            fontWeight: FontWeight.w700,
+                            fontFamily: 'Poppins-SemiBold',
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Stack(
+              children: [
+                Container(
+                  decoration: roundedWidget(),
+                  height: height * 0.8108,
+                  width: width,
+                  child: IndexedStack(
+                    index: _selectedIndex,
+                    children: const [
+                      NewsPortal(),
+                      MeditasiPage(),
+                      QuizPage(),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: roundedWidget(),
+                      
+                      child: Padding(
                         padding: const EdgeInsets.only(
-                          top: 55,
-                          left: 15,
+                          top: 5,
+                          left: 20,
+                          bottom: 2.5,
                         ),
                         child: Row(
                           children: [
                             Image.asset(
-                              'assets/logo_polos.png',
-                              width: 50,
+                              'assets/user.png',
+                              width: 30,
                             ),
-                            const SizedBox(width: 20),
-                            Text(
-                              'Healman',
+                            const SizedBox(width: 10),
+                            const Text(
+                              'HI, User',
                               style: TextStyle(
-                                color: Colors.indigo.shade800,
-                                fontSize: 23,
+                                color: Colors.black,
+                                fontSize: 18,
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Poppins-SemiBold',
                               ),
-                            )
+                            ),
+                            const Spacer(),
+                            PopupMenuButton<String>(
+                              icon: const Icon(Icons.more_vert,
+                                  color: Colors.black),
+                              onSelected: (String result) {
+                                print('Selected: $result');
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                const PopupMenuItem<String>(
+                                  value: 'profile',
+                                  child: Text('Profile'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'tentang_kami',
+                                  child: Text('Tentang Kami'),
+                                ),
+                                const PopupMenuItem<String>(
+                                  value: 'logout',
+                                  child: Text('Logout'),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                      )
-                    ],
+                      ),
                     ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(25),
-                        topRight: Radius.circular(25))),
-                height: height * 0.8108,
-                width: width,
-                child: IndexedStack(
-                  index: _selectedIndex,
-                  children: const [
-                    NewsPortal(),
-                    MeditasiPage(),
-                    QuizPage(),
+                    const Divider(
+                      color: Colors.grey,
+                      thickness: 0.8,
+                      height: 5,
+                    ),
                   ],
-                )
-              ),
-            ],
-          )),
-
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
       bottomNavigationBar: SalomonBottomBar(
-          currentIndex: _selectedIndex,
-          selectedItemColor: const Color(0xff6200ee),
-          unselectedItemColor: const Color(0xff757575),
-          onTap: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
-          items: _navBarItems),
+        currentIndex: _selectedIndex,
+        selectedItemColor: const Color(0xff6200ee),
+        unselectedItemColor: const Color(0xff757575),
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: _navBarItems,
+      ),
     );
   }
 
