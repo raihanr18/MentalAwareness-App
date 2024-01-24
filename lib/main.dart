@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomePage(),
+        home: SplashScreen(),
 
         // For testing only
         routes: {
