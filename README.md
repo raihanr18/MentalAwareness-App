@@ -1,4 +1,4 @@
-# healman_mental_awareness
+# Healman Mental Awareness-App
 
 Aplikasi kesehatan mental telah menjadi fokus penting dalam masyarakat, khususnya di Indonesia, menghadapi tantangan kurangnya akses dan kesadaran akan kesehatan mental, terutama di kalangan remaja. Data dari Indonesia-National Adolescent Mental Health Survey 2022 mengindikasikan bahwa 34,9% remaja mengalami masalah mental, namun hanya 2,6% yang mengakses layanan konseling.
 
