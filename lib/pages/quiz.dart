@@ -160,49 +160,86 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _questionIndex < questions.length
-                ? Column(
-                    children: <Widget>[
-                      Text(
-                        questions[_questionIndex]['questionText'],
-                        style: const TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      ...((questions[_questionIndex]['answers']
-                              as List<Map<String, dynamic>>))
-                          .map(
-                            (answer) => ElevatedButton(
-                              onPressed: () => _answerQuestion(
-                                answer['value'] as int,
-                              ),
-                              child: Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(16),
-                                child: Text(
-                                  answer['text'] as String,
-                                  textAlign: TextAlign.center,
+                ? Card(
+                    elevation: 8,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            questions[_questionIndex]['questionText'],
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ...((questions[_questionIndex]['answers']
+                                  as List<Map<String, dynamic>>))
+                              .map(
+                                (answer) => ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.blueAccent,
+                                    onPrimary: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  onPressed: () => _answerQuestion(
+                                    answer['value'] as int,
+                                  ),
+                                  child: Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.all(16),
+                                    child: Text(
+                                      answer['text'] as String,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
                                 ),
+                              )
+                              .toList(),
+                        ],
+                      ),
+                    ),
+                  )
+                : Card(
+                    elevation: 8,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              'Anda telah menyelesaikan kuis!',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              'Nilai Anda: $_totalScore',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          )
-                          ,
-                    ],
-                  )
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Anda telah menyelesaikan kuis!',
-                          style: TextStyle(fontSize: 20),
-                          textAlign: TextAlign.center,
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Nilai Anda: $_totalScore',
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
           ],
