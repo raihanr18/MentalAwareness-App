@@ -1,53 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
-
-class AudioManager {
-  static AudioPlayer _audioPlayer = AudioPlayer();
-  static String? _currentAudioFile;
-
-  // Use a Map to store the playing state for each audio file
-  static Map<String, bool> _isPlayingMap = {};
-
-  static Future<void> playAudio(String audioFile, BuildContext context) async {
-    try {
-      if (_currentAudioFile != null && _currentAudioFile != audioFile) {
-        await _audioPlayer.stop();
-        // Reset the playing state for the previous audio file
-        _isPlayingMap[_currentAudioFile!] = false;
-      }
-
-      await _audioPlayer.play(AssetSource(audioFile));
-      _currentAudioFile = audioFile;
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Memainkan $audioFile')),
-      );
-
-      // Update the playing state for the current audio file
-      _isPlayingMap[_currentAudioFile!] = true;
-    } catch (e) {
-      print('Error playing audio: $e');
-    }
-  }
-
-  static Future<void> stopAudio() async {
-    try {
-      await _audioPlayer.stop();
-      if (_currentAudioFile != null) {
-        // Reset the playing state for the current audio file
-        _isPlayingMap[_currentAudioFile!] = false;
-      }
-      _currentAudioFile = null;
-    } catch (e) {
-      print('Error stopping audio: $e');
-    }
-  }
-
-  // Get the playing state for a specific audio file
-  static bool isPlaying(String audioFile) {
-    return _isPlayingMap[audioFile] ?? false;
-  }
-}
+import 'track.dart';
 
 class MeditasiPage extends StatelessWidget {
   const MeditasiPage({Key? key});
@@ -83,6 +35,11 @@ class MeditasiPage extends StatelessWidget {
             audioFile: 'tidur.mp3',
             icon: Icons.nightlight_round,
           ),
+          MeditasiListItem(
+            title: 'Untuk Kamu Yang Sedang Hilang Harapan',
+            audioFile: 'hilangharapan.mp3',
+            icon: Icons.healing,
+          ),
         ],
       ),
     );
@@ -106,44 +63,27 @@ class MeditasiListItem extends StatefulWidget {
 }
 
 class _MeditasiListItemState extends State<MeditasiListItem> {
-  late bool isPlaying;
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the playing state for the current audio file
-    isPlaying = AudioManager.isPlaying(widget.audioFile);
-  }
-
-  Future<void> _toggleAudio() async {
-    if (isPlaying) {
-      await AudioManager.stopAudio();
-    } else {
-      await AudioManager.playAudio(widget.audioFile, context);
-    }
-    setState(() {
-      isPlaying = !isPlaying;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
       margin: EdgeInsets.all(8),
       child: InkWell(
-        onTap: () async {
-          await _toggleAudio();
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TrackPage(
+                title: widget.title,
+                audioFile: widget.audioFile,
+                icon: widget.icon,
+              ),
+            ),
+          );
         },
         child: ListTile(
           leading: Icon(widget.icon, color: Colors.indigo),
           title: Text(widget.title),
-          subtitle: Text(
-              'Ketuk untuk ${isPlaying ? "menghentikan" : "memutar"} meditasi'),
-          trailing: Icon(
-            isPlaying ? Icons.pause : Icons.play_arrow,
-            color: Colors.indigo,
-          ),
         ),
       ),
     );
