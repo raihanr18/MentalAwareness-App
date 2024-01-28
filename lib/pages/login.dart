@@ -95,6 +95,12 @@ class _LoginState extends State<Login> {
         } else {
           sp.checkUser().then((value) async {
             if (value == true) {
+              await sp.getUserDataFirestore(sp.uid).then((value) => sp
+                  .saveDataSharedPref()
+                  .then((value) => sp.setLogin().then((value) {
+                        googleController.success();
+                        handleAfterLogin();
+                      })));
             } else {
               sp.saveDataUsers().then((value) => sp
                   .saveDataSharedPref()

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:healman_mental_awareness/pages/login.dart';
 import 'package:healman_mental_awareness/pages/meditasi.dart';
 import 'package:healman_mental_awareness/pages/news_portal.dart';
 import 'package:healman_mental_awareness/pages/quiz.dart';
+import 'package:healman_mental_awareness/provider/sign_in_provider.dart';
+import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,6 +22,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final sp = context.read<SignInProvider>();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -80,7 +85,6 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Container(
                       decoration: roundedWidget(),
-                      
                       child: Padding(
                         padding: const EdgeInsets.only(
                           top: 5,
@@ -120,9 +124,13 @@ class _HomePageState extends State<HomePage> {
                                   value: 'tentang_kami',
                                   child: Text('Tentang Kami'),
                                 ),
-                                const PopupMenuItem<String>(
+                                PopupMenuItem<String>(
                                   value: 'logout',
-                                  child: Text('Logout'),
+                                  child: const Text('Logout'),
+                                  onTap: () {
+                                    sp.userLogout();
+                                    nextPageReplace(context, const Login());
+                                  },
                                 ),
                               ],
                             ),

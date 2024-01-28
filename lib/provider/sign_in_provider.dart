@@ -169,10 +169,10 @@ class SignInProvider extends ChangeNotifier {
     _isSignedIn = false;
     notifyListeners();
 
-    cleareStoredDara();
+    cleareStoredData();
   }
 
-  Future cleareStoredDara() async {
+  Future cleareStoredData() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     s.clear();
   }
