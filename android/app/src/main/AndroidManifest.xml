@@ -2,6 +2,7 @@
     <application
         android:label="Healman"
         android:name="${applicationName}"
+        android:value="AIzaSyDNTazIFQKINfW4vFoiGAfIrfQlaPqe_lw"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

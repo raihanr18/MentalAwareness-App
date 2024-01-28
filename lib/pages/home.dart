@@ -21,10 +21,11 @@ class _HomePageState extends State<HomePage> {
     final sp = context.read<SignInProvider>();
     sp.getDataSharedPreferences();
   }
-
+    
   @override
   void initState() {
     super.initState();
+
     getData();
   }
 
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final sp = context.read<SignInProvider>();
+    final sp = context.watch<SignInProvider>();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -107,8 +108,7 @@ class _HomePageState extends State<HomePage> {
                             CircleAvatar(
                               backgroundImage: NetworkImage("${sp.imageUrl}"),
                               radius: 19,
-                              
-                              ),
+                            ),
                             const SizedBox(width: 10),
                             Text(
                               "Hai, ${sp.name}",

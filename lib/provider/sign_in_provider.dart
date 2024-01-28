@@ -43,7 +43,7 @@ class SignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setLogin() async{
+  Future setLogin() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     s.setBool("signed_in", true);
     _isSignedIn = true;
@@ -74,7 +74,9 @@ class SignInProvider extends ChangeNotifier {
         _imageUrl = userDetails.photoURL;
         _provider = "GOOGLE";
         _uid = userDetails.uid;
-        // _isSignedIn = true;
+
+        await saveDataSharedPref();
+
         notifyListeners();
       } on FirebaseAuthException catch (e) {
         switch (e.code) {
