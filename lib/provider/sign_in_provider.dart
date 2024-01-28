@@ -138,7 +138,7 @@ class SignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getDataFromSharedPreferences() async {
+  Future getDataSharedPreferences() async {
     final SharedPreferences s = await SharedPreferences.getInstance();
     _name = s.getString('name');
     _email = s.getString('email');

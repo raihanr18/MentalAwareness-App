@@ -17,6 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future getData() async {
+    final sp = context.read<SignInProvider>();
+    sp.getDataSharedPreferences();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   int _selectedIndex = 0;
   dynamic height, width;
 
@@ -92,15 +103,16 @@ class _HomePageState extends State<HomePage> {
                           bottom: 2.5,
                         ),
                         child: Row(
-                          children: [
-                            Image.asset(
-                              'assets/user.png',
-                              width: 30,
-                            ),
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage: NetworkImage("${sp.imageUrl}"),
+                              radius: 19,
+                              
+                              ),
                             const SizedBox(width: 10),
-                            const Text(
-                              'HI, User',
-                              style: TextStyle(
+                            Text(
+                              "Hai, ${sp.name}",
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,

@@ -184,8 +184,7 @@ class _QuizPageState extends State<QuizPage> {
                               .map(
                                 (answer) => ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.blueAccent,
-                                    onPrimary: Colors.white,
+                                    foregroundColor: Colors.white, backgroundColor: Colors.blueAccent,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -204,7 +203,7 @@ class _QuizPageState extends State<QuizPage> {
                                   ),
                                 ),
                               )
-                              .toList(),
+                              ,
                         ],
                       ),
                     ),

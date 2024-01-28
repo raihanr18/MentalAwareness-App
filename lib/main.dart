@@ -42,6 +42,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
+        title: "Healman",
         home: SplashScreen(),
 
         // For testing only

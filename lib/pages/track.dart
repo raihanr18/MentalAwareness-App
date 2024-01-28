@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class AudioManager {
-  static AudioPlayer _audioPlayer = AudioPlayer();
+  static final AudioPlayer _audioPlayer = AudioPlayer();
   static String? _currentAudioFile;
 
-  static Map<String, bool> _isPlayingMap = {};
+  static final Map<String, bool> _isPlayingMap = {};
 
   static Future<void> playAudio(String audioFile, BuildContext context) async {
     try {
@@ -49,7 +49,7 @@ class TrackPage extends StatelessWidget {
   final String audioFile;
   final IconData icon;
 
-  TrackPage({
+  const TrackPage({super.key, 
     required this.title,
     required this.audioFile,
     required this.icon,
@@ -75,7 +75,7 @@ class TrackPageContent extends StatefulWidget {
   final String audioFile;
   final IconData icon;
 
-  TrackPageContent({
+  const TrackPageContent({super.key, 
     required this.title,
     required this.audioFile,
     required this.icon,
@@ -97,7 +97,7 @@ class _TrackPageContentState extends State<TrackPageContent>
     isPlaying = AudioManager.isPlaying(widget.audioFile);
 
     _animationController =
-        AnimationController(duration: Duration(seconds: 1), vsync: this);
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
     _animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: _animationController,
@@ -129,7 +129,7 @@ class _TrackPageContentState extends State<TrackPageContent>
             scale: _animation,
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [Colors.indigo, Colors.deepPurple],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
@@ -140,11 +140,11 @@ class _TrackPageContentState extends State<TrackPageContent>
                     color: Colors.black.withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 5,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
-              padding: EdgeInsets.all(20),
+              padding: const EdgeInsets.all(20),
               child: Icon(
                 widget.icon,
                 size: 50,
@@ -152,15 +152,15 @@ class _TrackPageContentState extends State<TrackPageContent>
               ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Text(
             widget.title,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: isPlaying ? Colors.red : Colors.green,
+              backgroundColor: isPlaying ? Colors.red : Colors.green,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
@@ -169,10 +169,10 @@ class _TrackPageContentState extends State<TrackPageContent>
               await _toggleAudio();
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: Text(
                 isPlaying ? 'Stop' : 'Play',
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
           ),

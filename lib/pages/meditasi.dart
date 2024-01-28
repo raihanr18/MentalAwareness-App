@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'track.dart';
 
 class MeditasiPage extends StatelessWidget {
-  const MeditasiPage({Key? key});
+  const MeditasiPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.indigoAccent,
       body: ListView(
-        children: [
+        children: const [
           MeditasiListItem(
             title: 'Meditasi Untuk Mencapai Pencerahan',
             audioFile: 'pencerahan.mp3',
@@ -51,12 +51,12 @@ class MeditasiListItem extends StatefulWidget {
   final String audioFile;
   final IconData icon;
 
-  MeditasiListItem({
-    Key? key,
+  const MeditasiListItem({
+    super.key,
     required this.title,
     required this.audioFile,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   _MeditasiListItemState createState() => _MeditasiListItemState();
@@ -67,7 +67,7 @@ class _MeditasiListItemState extends State<MeditasiListItem> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: InkWell(
         onTap: () {
           Navigator.push(

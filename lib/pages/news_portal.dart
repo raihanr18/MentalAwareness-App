@@ -19,7 +19,7 @@ class _NewsPortalState extends State<NewsPortal> {
   }
 
   void fetchNews() async {
-      final apiKey = '55d4db72b5a84eb3a0b7aae322058088';
+      const apiKey = '55d4db72b5a84eb3a0b7aae322058088';
 
       final List<String> keywords = ['mental%20health', 'psikologi', 'jiwa'];
 
@@ -36,7 +36,7 @@ class _NewsPortalState extends State<NewsPortal> {
             List<Article> articles = articlesData.map((articleData) {
               return Article(
                 title: articleData['title'] ?? 'Tidak Ada Judul',
-                imageUrl: articleData['urlToImage'] != null ? articleData['urlToImage'] : "https://picsum.photos/200/300",
+                imageUrl: articleData['urlToImage'] ?? "https://picsum.photos/200/300",
                 author: articleData['author'] ?? 'Tidak Diketahui',
                 postedOn: articleData['publishedAt'] ?? 'Tidak Diketahui',
               );
@@ -91,7 +91,7 @@ class _NewsPortalState extends State<NewsPortal> {
                             ),
                             const SizedBox(height: 8),
                             Text("${item.author} · ${item.postedOn}",
-                                style: Theme.of(context).textTheme.caption),
+                                style: Theme.of(context).textTheme.bodySmall),
                             const SizedBox(height: 8),
                             Row(
                               mainAxisSize: MainAxisSize.min,
