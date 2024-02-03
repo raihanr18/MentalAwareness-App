@@ -60,7 +60,7 @@ class _NewsPortalState extends State<NewsPortal> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: const EdgeInsets.only(top: 25),
+        padding: const EdgeInsets.only(top: 30),
         child: Center(
           child: Container(
             constraints: const BoxConstraints(maxWidth: 400),

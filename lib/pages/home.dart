@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/pages/login.dart';
-import 'package:healman_mental_awareness/pages/meditasi.dart';
+import 'package:healman_mental_awareness/pages/meditasi/meditasi.dart';
 import 'package:healman_mental_awareness/pages/news_portal.dart';
-import 'package:healman_mental_awareness/pages/quiz.dart';
+import 'package:healman_mental_awareness/pages/quiz/quiz.dart';
 import 'package:healman_mental_awareness/provider/sign_in_provider.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'assets/logo_polos.png',
+                          'assets/icon/logo_polos.png',
                           width: 50,
                         ),
                         const SizedBox(width: 20),

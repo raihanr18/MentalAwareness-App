@@ -12,32 +12,32 @@ class MeditasiPage extends StatelessWidget {
         children: const [
           MeditasiListItem(
             title: 'Meditasi Untuk Mencapai Pencerahan',
-            audioFile: 'pencerahan.mp3',
+            audioFile: 'music/pencerahan.mp3',
             icon: Icons.lightbulb,
           ),
           MeditasiListItem(
             title: 'Meditasi Untuk Yang Sedang Bersedih',
-            audioFile: 'sedih.mp3',
+            audioFile: 'music/sedih.mp3',
             icon: Icons.sentiment_very_dissatisfied,
           ),
           MeditasiListItem(
             title: 'Meditasi Untuk Seseorang Yang Sedang banyak Pikiran',
-            audioFile: 'stress.mp3',
+            audioFile: 'music/stress.mp3',
             icon: Icons.warning,
           ),
           MeditasiListItem(
             title: 'Meditasi Untuk Yang Sedang Tidak Percaya Diri',
-            audioFile: 'tidakpercaya.mp3',
+            audioFile: 'music/tidakpercaya.mp3',
             icon: Icons.thumb_down_alt,
           ),
           MeditasiListItem(
             title: 'Meditasi Untuk Yang Susah Tidur',
-            audioFile: 'tidur.mp3',
+            audioFile: 'music/tidur.mp3',
             icon: Icons.nightlight_round,
           ),
           MeditasiListItem(
             title: 'Untuk Kamu Yang Sedang Hilang Harapan',
-            audioFile: 'hilangharapan.mp3',
+            audioFile: 'music/hilangharapan.mp3',
             icon: Icons.healing,
           ),
         ],

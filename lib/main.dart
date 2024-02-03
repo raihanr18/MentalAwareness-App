@@ -44,12 +44,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "Healman",
         home: SplashScreen(),
-
-        // For testing only
-        routes: {
-          // '/':(context) => const HomePage(),
-          // '/':(context) => const Index(),
-        },
       ),
     );
   }

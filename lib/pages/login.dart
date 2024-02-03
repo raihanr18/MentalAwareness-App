@@ -38,7 +38,7 @@ class _LoginState extends State<Login> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(bottom: 300),
-                child: Image.asset('assets/logo.png'),
+                child: Image.asset('assets/icon/logo.png'),
               ),
               RoundedLoadingButton(
                 onPressed: () {
@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
                       width: 15,
                     ),
                     Image.asset(
-                      'assets/google.png',
+                      'assets/icon/google.png',
                       width: 25,
                       height: 25,
                     ),
