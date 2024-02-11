@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:healman_mental_awareness/pages/quiz/mbti.dart';
+import 'package:healman_mental_awareness/utils/next_page.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -61,12 +63,11 @@ class _QuizPageState extends State<QuizPage> {
                     buttonHeight: 52.0,
                     buttonMinWidth: 90.0,
                     children: <Widget>[
-                      
                       TextButton(
                         style: flatButtonStyle,
                         onPressed: () {
-                          // 
-
+                          //
+                          nextPage(context, const Mbti());
                         },
                         child: const Column(
                           children: <Widget>[
@@ -77,9 +78,7 @@ class _QuizPageState extends State<QuizPage> {
                             Text(
                               'Coba Quiz',
                               style: TextStyle(
-                                color: Colors.blue,
-                                fontFamily: 'Poppins'
-                              ),
+                                  color: Colors.blue, fontFamily: 'Poppins'),
                             ),
                           ],
                         ),
@@ -98,7 +97,8 @@ class _QuizPageState extends State<QuizPage> {
                 leading: CircleAvatar(
                     backgroundColor: Colors.blue.shade100,
                     child: Image.asset('assets/icon/loneliness.png')),
-                title: const Text('Quiz Tingkat Rasa Kesepian: Loneliness Scale'),
+                title:
+                    const Text('Quiz Tingkat Rasa Kesepian: Loneliness Scale'),
                 children: <Widget>[
                   const Divider(
                     thickness: 1.0,
@@ -128,8 +128,7 @@ class _QuizPageState extends State<QuizPage> {
                       TextButton(
                         style: flatButtonStyle,
                         onPressed: () {
-                          // 
-                          
+                          //
                         },
                         child: const Column(
                           children: <Widget>[
@@ -140,9 +139,7 @@ class _QuizPageState extends State<QuizPage> {
                             Text(
                               'Coba Quiz',
                               style: TextStyle(
-                                color: Colors.blue,
-                                fontFamily: 'Poppins'
-                              ),
+                                  color: Colors.blue, fontFamily: 'Poppins'),
                             ),
                           ],
                         ),
@@ -190,8 +187,7 @@ class _QuizPageState extends State<QuizPage> {
                       TextButton(
                         style: flatButtonStyle,
                         onPressed: () {
-                          // 
-                          
+                          //
                         },
                         child: const Column(
                           children: <Widget>[
@@ -202,9 +198,7 @@ class _QuizPageState extends State<QuizPage> {
                             Text(
                               'Coba Quiz',
                               style: TextStyle(
-                                color: Colors.blue,
-                                fontFamily: 'Poppins'
-                              ),
+                                  color: Colors.blue, fontFamily: 'Poppins'),
                             ),
                           ],
                         ),

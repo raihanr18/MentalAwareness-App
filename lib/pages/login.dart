@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
                     const Text(
                       "Login dengan Google",
                       style: TextStyle(
-                          color: Colors.black,
+                          color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Poppins'),
