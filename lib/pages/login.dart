@@ -115,7 +115,7 @@ class _LoginState extends State<Login> {
     if (userRole == 'ADMIN') {
       // Jika pengguna adalah admin, arahkan ke halaman admin
       Future.delayed(const Duration(milliseconds: 1000)).then((value) {
-        nextPageReplace(context, const AdminPage()); // Ganti dengan halaman admin yang sesuai
+        nextPageReplace(context, AdminPage()); // Ganti dengan halaman admin yang sesuai
       });
     } else {
       // Jika pengguna adalah user, arahkan ke halaman home
