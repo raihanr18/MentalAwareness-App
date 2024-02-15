@@ -19,7 +19,7 @@ class LoginController extends ChangeNotifier {
   String? get errorCode => _errorCode;
 
   String? _role;
-  String? get provider => _role;
+  String? get role => _role;
 
   String? _uid;
   String? get uid => _uid;
@@ -113,7 +113,7 @@ class LoginController extends ChangeNotifier {
               _name = snapshot['name'],
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],
-              _role = snapshot['provider'],
+              _role = snapshot['role'],
             });
   }
 
@@ -124,7 +124,7 @@ class LoginController extends ChangeNotifier {
       'name': _name,
       'email': _email,
       'image_url': _imageUrl,
-      'provider': _role,
+      'role': _role,
       'uid': _uid,
     });
     notifyListeners();
@@ -136,7 +136,7 @@ class LoginController extends ChangeNotifier {
     await s.setString('email', _email!);
     await s.setString('uid', _uid!);
     await s.setString('image_url', _imageUrl!);
-    await s.setString('provider', _role!);
+    await s.setString('role', _role!);
     notifyListeners();
   }
 
@@ -146,7 +146,7 @@ class LoginController extends ChangeNotifier {
     _email = s.getString('email');
     _imageUrl = s.getString('image_url');
     _uid = s.getString('uid');
-    _role = s.getString('provider');
+    _role = s.getString('role');
     notifyListeners();
   }
 

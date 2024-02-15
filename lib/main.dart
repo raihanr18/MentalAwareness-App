@@ -5,7 +5,6 @@ import 'package:healman_mental_awareness/pages/home.dart';
 
 // Pages
 import 'package:healman_mental_awareness/firebase_options.dart';
-import 'package:healman_mental_awareness/pages/index.dart';
 import 'package:healman_mental_awareness/pages/quiz/mbti.dart';
 import 'package:healman_mental_awareness/pages/quiz/quiz_mbti.dart';
 import 'package:healman_mental_awareness/pages/result_page.dart';

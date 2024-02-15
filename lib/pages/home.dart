@@ -4,6 +4,8 @@ import 'package:healman_mental_awareness/pages/login.dart';
 import 'package:healman_mental_awareness/pages/meditasi/meditasi.dart';
 import 'package:healman_mental_awareness/pages/news_portal.dart';
 import 'package:healman_mental_awareness/pages/quiz/quiz.dart';
+import 'package:healman_mental_awareness/pages/tentang_kami.dart';
+import 'package:healman_mental_awareness/pages/user/profile.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +23,7 @@ class _HomePageState extends State<HomePage> {
     final sp = context.read<LoginController>();
     sp.getDataSharedPreferences();
   }
-    
+
   @override
   void initState() {
     super.initState();
@@ -128,13 +130,19 @@ class _HomePageState extends State<HomePage> {
                               },
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry<String>>[
-                                const PopupMenuItem<String>(
+                                PopupMenuItem<String>(
                                   value: 'profile',
-                                  child: Text('Profile'),
+                                  child: const Text('Profile'),
+                                  onTap: () {
+                                    nextPage(context, const ProfilePage());
+                                  },
                                 ),
-                                const PopupMenuItem<String>(
+                                PopupMenuItem<String>(
                                   value: 'tentang_kami',
-                                  child: Text('Tentang Kami'),
+                                  child: const Text('Tentang Kami'),
+                                  onTap: () {
+                                    nextPage(context, const TentangKami());
+                                  },
                                 ),
                                 PopupMenuItem<String>(
                                   value: 'logout',

@@ -17,7 +17,7 @@ double height = 0.0;
 double width = 0.0;
 
 class _QuizMbtiState extends State<QuizMbti> {
-  final RoundedLoadingButtonController mulaiController =
+  final RoundedLoadingButtonController buttonController =
       RoundedLoadingButtonController();
 
   List<Question> questionList = questions;
@@ -130,12 +130,12 @@ class _QuizMbtiState extends State<QuizMbti> {
                     child: RoundedLoadingButton(
                       onPressed: () {
                         nextPage(context, const Mbti());
-                        mulaiController.success();
-                        mulaiController.reset();
+                        buttonController.success();
+                        buttonController.reset();
                       },
                       height: 32,
                       width: 115,
-                      controller: mulaiController,
+                      controller: buttonController,
                       successColor: Colors.green,
                       color: Colors.blue,
                       valueColor: Colors.white,
@@ -161,7 +161,7 @@ class _QuizMbtiState extends State<QuizMbti> {
                     right: 10,
                     child: AnimatedOpacity(
                       opacity: showNextButton ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       child: showNextButton ? RoundedLoadingButton(
                         onPressed: () {
                           setState(() {
@@ -178,13 +178,13 @@ class _QuizMbtiState extends State<QuizMbti> {
                               );
                             }
                           });
-                          mulaiController.success();
-                          mulaiController.reset();
+                          buttonController.success();
+                          buttonController.reset();
                         },
                         height: 32,
                         width: 115,
                         elevation: 0,
-                        controller: mulaiController,
+                        controller: buttonController,
                         successColor: Colors.green,
                         color: Colors.transparent,
                         valueColor: Colors.white,

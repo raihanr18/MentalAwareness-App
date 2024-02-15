@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/models/Question.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
-import 'package:healman_mental_awareness/pages/quiz/quiz.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ResultPage extends StatefulWidget {
   final List<Option> userAnswers;

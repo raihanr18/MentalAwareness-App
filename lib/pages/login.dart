@@ -1,25 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:healman_mental_awareness/pages/admin/admin.dart';
+import 'package:provider/provider.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+
 import 'package:healman_mental_awareness/controller/internet_controller.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
-
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/snack_bar.dart';
 
-import 'package:flutter/material.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
-import 'package:provider/provider.dart';
-
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  final GlobalKey _scaffoldKey = GlobalKey<ScaffoldState>();
-  final RoundedLoadingButtonController googleController =
-      RoundedLoadingButtonController();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final RoundedLoadingButtonController googleController = RoundedLoadingButtonController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +55,11 @@ class _LoginState extends State<Login> {
                     const Text(
                       "Login dengan Google",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: 'Poppins'),
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
+                      ),
                     ),
                     const SizedBox(
                       width: 15,
@@ -79,45 +79,49 @@ class _LoginState extends State<Login> {
     );
   }
 
-  Future handleGoogleLogin() async {
+  Future<void> handleGoogleLogin() async {
     final sp = context.read<LoginController>();
     final ip = context.read<InternetController>();
     await ip.checkInternetConnection();
 
-    if (ip.hasInternet == false) {
+    if (!ip.hasInternet) {
       openSnackbar(context, "Periksa jaringan internet anda", Colors.red);
       googleController.reset();
     } else {
       await sp.loginWithGoogle().then((value) {
-        if (sp.hasErrors == true) {
+        if (sp.hasErrors) {
           openSnackbar(context, sp.errorCode.toString(), Colors.red);
           googleController.reset();
         } else {
           sp.checkUser().then((value) async {
             if (value == true) {
-              await sp.getUserDataFirestore(sp.uid).then((value) => sp
-                  .saveDataSharedPref()
-                  .then((value) => sp.setLogin().then((value) {
-                        googleController.success();
-                        handleAfterLogin();
-                      })));
+              await sp.getUserDataFirestore(sp.uid).then((value) => sp.saveDataSharedPref().then((value) => sp.setLogin().then((value) {
+                    googleController.success();
+                    handleAfterLogin(sp.role); // Tambahkan peran pengguna sebagai parameter
+                  })));
             } else {
-              sp.saveDataUsers().then((value) => sp
-                  .saveDataSharedPref()
-                  .then((value) => sp.setLogin().then((value) {
-                        googleController.success();
-                        handleAfterLogin();
-                      })));
+              sp.saveDataUsers().then((value) => sp.saveDataSharedPref().then((value) => sp.setLogin().then((value) {
+                    googleController.success();
+                    handleAfterLogin(sp.role); // Tambahkan peran pengguna sebagai parameter
+                  })));
             }
           });
         }
       });
     }
   }
-
-  handleAfterLogin() {
-    Future.delayed(const Duration(milliseconds: 1000)).then((value) {
-      nextPageReplace(context, const HomePage());
-    });
+  void handleAfterLogin(String? userRole) {
+    // Memeriksa peran pengguna setelah login
+    if (userRole == 'ADMIN') {
+      // Jika pengguna adalah admin, arahkan ke halaman admin
+      Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+        nextPageReplace(context, const AdminPage()); // Ganti dengan halaman admin yang sesuai
+      });
+    } else {
+      // Jika pengguna adalah user, arahkan ke halaman home
+      Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+        nextPageReplace(context, const HomePage());
+      });
+    }
   }
 }
