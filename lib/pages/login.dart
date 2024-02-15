@@ -1,6 +1,6 @@
+import 'package:healman_mental_awareness/controller/internet_controller.dart';
+import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
-import 'package:healman_mental_awareness/provider/internet_provider.dart';
-import 'package:healman_mental_awareness/provider/sign_in_provider.dart';
 
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/snack_bar.dart';
@@ -56,7 +56,7 @@ class _LoginState extends State<Login> {
                     const Text(
                       "Login dengan Google",
                       style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
                           fontFamily: 'Poppins'),
@@ -80,8 +80,8 @@ class _LoginState extends State<Login> {
   }
 
   Future handleGoogleLogin() async {
-    final sp = context.read<SignInProvider>();
-    final ip = context.read<InternetProvider>();
+    final sp = context.read<LoginController>();
+    final ip = context.read<InternetController>();
     await ip.checkInternetConnection();
 
     if (ip.hasInternet == false) {

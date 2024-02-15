@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
 import 'package:healman_mental_awareness/pages/login.dart';
-import 'package:healman_mental_awareness/provider/sign_in_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
   //Init
   @override
   void initState() {
-    final sp = context.read<SignInProvider>();
+    final sp = context.read<LoginController>();
     super.initState();
 
     // Timer

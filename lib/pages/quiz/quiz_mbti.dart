@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/models/Question.dart';
 import 'package:healman_mental_awareness/pages/quiz/mbti.dart';
+import 'package:healman_mental_awareness/pages/result_page.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class QuizMbti extends StatefulWidget {
-  const QuizMbti({Key? key}) : super(key: key);
+  const QuizMbti({super.key});
 
   @override
   State<QuizMbti> createState() => _QuizMbtiState();
@@ -22,6 +23,8 @@ class _QuizMbtiState extends State<QuizMbti> {
   List<Question> questionList = questions;
   int indexQuestion = 0;
   Option? selectedOption;
+  List<Option> userAnswers = [];
+  bool showNextButton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -156,31 +159,46 @@ class _QuizMbtiState extends State<QuizMbti> {
                   Positioned(
                     bottom: 35,
                     right: 10,
-                    child: RoundedLoadingButton(
-                      onPressed: () {
-                        setState(() {
-                          indexQuestion++;
-                        });
-                        mulaiController.success();
-                        mulaiController.reset();
-                      },
-                      height: 32,
-                      width: 115,
-                      elevation: 0,
-                      controller: mulaiController,
-                      successColor: Colors.green,
-                      color: Colors.transparent,
-                      valueColor: Colors.white,
-                      borderRadius: 15,
-                      child: Wrap(
-                        children: [
-                          const SizedBox(width: 20),
-                          Image.asset(
-                            'assets/icon/arrow_next.png',
-                            width: 50,
-                          )
-                        ],
-                      ),
+                    child: AnimatedOpacity(
+                      opacity: showNextButton ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: showNextButton ? RoundedLoadingButton(
+                        onPressed: () {
+                          setState(() {
+                            if (indexQuestion < questions.length - 1) {
+                              indexQuestion++;
+                              selectedOption = null;
+                              showNextButton = false;
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResultPage(userAnswers: userAnswers),
+                                ),
+                              );
+                            }
+                          });
+                          mulaiController.success();
+                          mulaiController.reset();
+                        },
+                        height: 32,
+                        width: 115,
+                        elevation: 0,
+                        controller: mulaiController,
+                        successColor: Colors.green,
+                        color: Colors.transparent,
+                        valueColor: Colors.white,
+                        borderRadius: 15,
+                        child: Wrap(
+                          children: [
+                            const SizedBox(width: 20),
+                            Image.asset(
+                              'assets/icon/arrow_next.png',
+                              width: 50,
+                            )
+                          ],
+                        ),
+                      ) : const SizedBox(), 
                     ),
                   ),
                 ],
@@ -201,9 +219,10 @@ class _QuizMbtiState extends State<QuizMbti> {
       width: 350,
       child: ElevatedButton(
         onPressed: () {
-          // Mengatur selectedOption ketika tombol ditekan
           setState(() {
             selectedOption = option;
+            userAnswers.add(option); 
+            showNextButton = true;
           });
         },
         style: ElevatedButton.styleFrom(
@@ -212,7 +231,7 @@ class _QuizMbtiState extends State<QuizMbti> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(
-              color: isSelected ? Colors.green : Colors.blue, // Warna border
+              color: isSelected ? Colors.green : Colors.blue, 
               width: 2,
             ),
           ),
@@ -229,11 +248,11 @@ class _QuizMbtiState extends State<QuizMbti> {
                         size: 30,
                       ),
                     )
-                  : null, // Hanya menampilkan ikon jika tombol dipilih
+                  : null, 
             ),
             Expanded(
               child: Text(
-                option.text, // Gunakan teks dari opsi
+                option.text, 
                 style: const TextStyle(
                     fontSize: 20, fontFamily: 'Poppins', color: Colors.black),
               ),
@@ -244,7 +263,6 @@ class _QuizMbtiState extends State<QuizMbti> {
     );
   }
 
-// Di dalam build(), gantikan _answerButton() dengan _answerList()
   Column _answerList() {
     return Column(
       children: questionList[indexQuestion]

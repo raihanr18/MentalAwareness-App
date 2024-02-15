@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/login.dart';
 import 'package:healman_mental_awareness/pages/meditasi/meditasi.dart';
 import 'package:healman_mental_awareness/pages/news_portal.dart';
 import 'package:healman_mental_awareness/pages/quiz/quiz.dart';
-import 'package:healman_mental_awareness/provider/sign_in_provider.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Future getData() async {
-    final sp = context.read<SignInProvider>();
+    final sp = context.read<LoginController>();
     sp.getDataSharedPreferences();
   }
     
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final sp = context.watch<SignInProvider>();
+    final sp = context.watch<LoginController>();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     return Scaffold(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SignInProvider extends ChangeNotifier {
+class LoginController extends ChangeNotifier {
   // Firebase Instance
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -18,8 +18,8 @@ class SignInProvider extends ChangeNotifier {
   String? _errorCode;
   String? get errorCode => _errorCode;
 
-  String? _provider;
-  String? get provider => _provider;
+  String? _role;
+  String? get provider => _role;
 
   String? _uid;
   String? get uid => _uid;
@@ -33,7 +33,7 @@ class SignInProvider extends ChangeNotifier {
   String? _imageUrl;
   String? get imageUrl => _imageUrl;
 
-  SignInProvider() {
+  LoginController() {
     checkSignInUser();
   }
 
@@ -72,7 +72,7 @@ class SignInProvider extends ChangeNotifier {
         _email = userDetails.email;
         _uid = userDetails.uid;
         _imageUrl = userDetails.photoURL;
-        _provider = "GOOGLE";
+        _role = "USER";
         _uid = userDetails.uid;
 
         await saveDataSharedPref();
@@ -113,7 +113,7 @@ class SignInProvider extends ChangeNotifier {
               _name = snapshot['name'],
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],
-              _provider = snapshot['provider'],
+              _role = snapshot['provider'],
             });
   }
 
@@ -124,7 +124,7 @@ class SignInProvider extends ChangeNotifier {
       'name': _name,
       'email': _email,
       'image_url': _imageUrl,
-      'provider': _provider,
+      'provider': _role,
       'uid': _uid,
     });
     notifyListeners();
@@ -136,7 +136,7 @@ class SignInProvider extends ChangeNotifier {
     await s.setString('email', _email!);
     await s.setString('uid', _uid!);
     await s.setString('image_url', _imageUrl!);
-    await s.setString('provider', _provider!);
+    await s.setString('provider', _role!);
     notifyListeners();
   }
 
@@ -146,7 +146,7 @@ class SignInProvider extends ChangeNotifier {
     _email = s.getString('email');
     _imageUrl = s.getString('image_url');
     _uid = s.getString('uid');
-    _provider = s.getString('provider');
+    _role = s.getString('provider');
     notifyListeners();
   }
 
