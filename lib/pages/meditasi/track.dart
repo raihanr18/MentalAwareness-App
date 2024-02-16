@@ -42,6 +42,14 @@ class AudioManager {
   static bool isPlaying(String audioFile) {
     return _isPlayingMap[audioFile] ?? false;
   }
+
+  static Future<void> seekTo(Duration position) async {
+    try {
+      await _audioPlayer.seek(position);
+    } catch (e) {
+      print('Error seeking audio: $e');
+    }
+  }
 }
 
 class TrackPage extends StatelessWidget {
@@ -62,7 +70,7 @@ class TrackPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.indigoAccent,
       body: TrackPageContent(
         title: title,
         audioFile: audioFile,
@@ -110,6 +118,12 @@ class _TrackPageContentState extends State<TrackPageContent>
         _position = position;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    AudioManager.stopAudio();
+    super.dispose();
   }
 
   Future<void> _toggleAudio() async {
@@ -167,6 +181,23 @@ class _TrackPageContentState extends State<TrackPageContent>
           style: TextStyle(fontSize: 24.0),
         ),
         const SizedBox(height: 20),
+        Slider(
+            value: _position.inSeconds.toDouble(),
+            min: 0,
+            max: _duration.inSeconds.toDouble(),
+            onChanged: (newValue) {
+              if (mounted) {
+                setState(() {
+                  _position = Duration(seconds: newValue.toInt());
+                });
+              }
+            },
+            onChangeEnd: (newValue) {
+              if (mounted) {
+                AudioManager.seekTo(Duration(seconds: newValue.toInt()));
+              }
+            }),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -184,10 +215,9 @@ class _TrackPageContentState extends State<TrackPageContent>
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Text(
-                  isPlaying ? 'Stop' : 'Play',
-                  style: const TextStyle(fontSize: 18),
-                ),
+                child: isPlaying
+                    ? Icon(Icons.stop, size: 18)
+                    : Icon(Icons.play_arrow, size: 18),
               ),
             ),
           ],
