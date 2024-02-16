@@ -49,7 +49,8 @@ class TrackPage extends StatelessWidget {
   final String audioFile;
   final IconData icon;
 
-  const TrackPage({super.key, 
+  const TrackPage({
+    super.key,
     required this.title,
     required this.audioFile,
     required this.icon,
@@ -61,6 +62,7 @@ class TrackPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
+      backgroundColor: Colors.blue,
       body: TrackPageContent(
         title: title,
         audioFile: audioFile,
@@ -75,7 +77,8 @@ class TrackPageContent extends StatefulWidget {
   final String audioFile;
   final IconData icon;
 
-  const TrackPageContent({super.key, 
+  const TrackPageContent({
+    super.key,
     required this.title,
     required this.audioFile,
     required this.icon,
@@ -88,22 +91,11 @@ class TrackPageContent extends StatefulWidget {
 class _TrackPageContentState extends State<TrackPageContent>
     with SingleTickerProviderStateMixin {
   late bool isPlaying;
-  late AnimationController _animationController;
-  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
     isPlaying = AudioManager.isPlaying(widget.audioFile);
-
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this);
-    _animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeInOut,
-      ),
-    );
   }
 
   Future<void> _toggleAudio() async {
@@ -119,71 +111,68 @@ class _TrackPageContentState extends State<TrackPageContent>
 
   @override
   Widget build(BuildContext context) {
-    _animationController.forward();
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ScaleTransition(
-            scale: _animation,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Colors.indigo, Colors.deepPurple],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 250,
+          height: 250,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.rectangle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Center(
+            child: Icon(
+              widget.icon,
+              size: 100,
+              color: Colors.indigo,
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        Text(
+          widget.title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: isPlaying ? Colors.red : Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
               ),
-              padding: const EdgeInsets.all(20),
-              child: Icon(
-                widget.icon,
-                size: 50,
-                color: Colors.white,
+              onPressed: () async {
+                await _toggleAudio();
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  isPlaying ? 'Stop' : 'Play',
+                  style: const TextStyle(fontSize: 18),
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            widget.title,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: isPlaying ? Colors.red : Colors.green,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            onPressed: () async {
-              await _toggleAudio();
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Text(
-                isPlaying ? 'Stop' : 'Play',
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 }
