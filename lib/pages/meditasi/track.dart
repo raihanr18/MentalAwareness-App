@@ -91,11 +91,25 @@ class TrackPageContent extends StatefulWidget {
 class _TrackPageContentState extends State<TrackPageContent>
     with SingleTickerProviderStateMixin {
   late bool isPlaying;
+  Duration _duration = Duration();
+  Duration _position = Duration();
 
   @override
   void initState() {
     super.initState();
     isPlaying = AudioManager.isPlaying(widget.audioFile);
+    // Mendengarkan perubahan durasi audio
+    AudioManager._audioPlayer.onDurationChanged.listen((Duration duration) {
+      setState(() {
+        _duration = duration;
+      });
+    });
+    // Mendengarkan perubahan posisi audio
+    AudioManager._audioPlayer.onPositionChanged.listen((Duration position) {
+      setState(() {
+        _position = position;
+      });
+    });
   }
 
   Future<void> _toggleAudio() async {
@@ -148,8 +162,14 @@ class _TrackPageContentState extends State<TrackPageContent>
           ),
         ),
         const SizedBox(height: 20),
+        Text(
+          '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')} / ${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
+          style: TextStyle(fontSize: 24.0),
+        ),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
