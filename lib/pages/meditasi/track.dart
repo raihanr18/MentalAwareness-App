@@ -70,7 +70,7 @@ class TrackPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      backgroundColor: Colors.indigoAccent,
+      backgroundColor: Colors.white,
       body: TrackPageContent(
         title: title,
         audioFile: audioFile,
@@ -146,7 +146,7 @@ class _TrackPageContentState extends State<TrackPageContent>
           width: 250,
           height: 250,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.blue,
             shape: BoxShape.rectangle,
             boxShadow: [
               BoxShadow(
@@ -161,7 +161,7 @@ class _TrackPageContentState extends State<TrackPageContent>
             child: Icon(
               widget.icon,
               size: 100,
-              color: Colors.indigo,
+              color: Colors.white,
             ),
           ),
         ),
@@ -172,31 +172,48 @@ class _TrackPageContentState extends State<TrackPageContent>
           style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.blue,
           ),
         ),
         const SizedBox(height: 20),
+<<<<<<< HEAD
         Text(
           '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')} / ${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
           style: const TextStyle(fontSize: 24.0),
+=======
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')}',
+              style: TextStyle(fontSize: 18.0, color: Colors.blue),
+            ),
+            Text(
+              '${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
+              style: TextStyle(fontSize: 18.0, color: Colors.blue),
+            ),
+          ],
+>>>>>>> 71a150e275da4e8a0a0a61f0e9c234d02e31977f
         ),
         const SizedBox(height: 20),
         Slider(
-            value: _position.inSeconds.toDouble(),
-            min: 0,
-            max: _duration.inSeconds.toDouble(),
-            onChanged: (newValue) {
-              if (mounted) {
-                setState(() {
-                  _position = Duration(seconds: newValue.toInt());
-                });
-              }
-            },
-            onChangeEnd: (newValue) {
-              if (mounted) {
-                AudioManager.seekTo(Duration(seconds: newValue.toInt()));
-              }
-            }),
+          value: _position.inSeconds.toDouble(),
+          min: 0,
+          max: _duration.inSeconds.toDouble(),
+          onChanged: (newValue) {
+            if (mounted) {
+              setState(() {
+                _position = Duration(seconds: newValue.toInt());
+              });
+            }
+          },
+          onChangeEnd: (newValue) {
+            if (mounted) {
+              AudioManager.seekTo(Duration(seconds: newValue.toInt()));
+            }
+          },
+          activeColor: Colors.blue,
+        ),
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -204,7 +221,7 @@ class _TrackPageContentState extends State<TrackPageContent>
           children: [
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: isPlaying ? Colors.red : Colors.green,
+                backgroundColor: isPlaying ? Colors.white : Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -216,8 +233,13 @@ class _TrackPageContentState extends State<TrackPageContent>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: isPlaying
+<<<<<<< HEAD
                     ? const Icon(Icons.stop, size: 18)
                     : const Icon(Icons.play_arrow, size: 18),
+=======
+                    ? Icon(Icons.stop, size: 40, color: Colors.blue)
+                    : Icon(Icons.play_arrow, size: 40, color: Colors.blue),
+>>>>>>> 71a150e275da4e8a0a0a61f0e9c234d02e31977f
               ),
             ),
           ],
