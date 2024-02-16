@@ -182,21 +182,23 @@ class _TrackPageContentState extends State<TrackPageContent>
         ),
         const SizedBox(height: 20),
         Slider(
-            value: _position.inSeconds.toDouble(),
-            min: 0,
-            max: _duration.inSeconds.toDouble(),
-            onChanged: (newValue) {
-              if (mounted) {
-                setState(() {
-                  _position = Duration(seconds: newValue.toInt());
-                });
-              }
-            },
-            onChangeEnd: (newValue) {
-              if (mounted) {
-                AudioManager.seekTo(Duration(seconds: newValue.toInt()));
-              }
-            }),
+          value: _position.inSeconds.toDouble(),
+          min: 0,
+          max: _duration.inSeconds.toDouble(),
+          onChanged: (newValue) {
+            if (mounted) {
+              setState(() {
+                _position = Duration(seconds: newValue.toInt());
+              });
+            }
+          },
+          onChangeEnd: (newValue) {
+            if (mounted) {
+              AudioManager.seekTo(Duration(seconds: newValue.toInt()));
+            }
+          },
+          activeColor: Colors.blue,
+        ),
         const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
