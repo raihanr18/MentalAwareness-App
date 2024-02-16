@@ -114,7 +114,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              "Hai, ${sp.name}",
+                              sp.role == 'ADMIN'
+                                  ? 'Hai, Admin ${sp.name}'
+                                  : "Hai, ${sp.name}",
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
@@ -124,11 +126,12 @@ class _HomePageState extends State<HomePage> {
                             ),
                             const Spacer(),
                             PopupMenuButton<String>(
-                              icon: const Icon(Icons.more_vert, color: Colors.black),
+                              icon: const Icon(Icons.more_vert,
+                                  color: Colors.black),
                               onSelected: (String result) {
                                 print('Selected: $result');
-                                if(result == 'admin') {
-                                  nextPage(context, AdminPage()); 
+                                if (result == 'admin') {
+                                  nextPage(context, AdminPage());
                                 }
                               },
                               itemBuilder: (BuildContext context) {
@@ -156,17 +159,18 @@ class _HomePageState extends State<HomePage> {
                                     },
                                   ),
                                 ];
-                               
-                                if(sp.role == 'ADMIN') {
-                                  items.insert(1, const PopupMenuItem<String>(
-                                    value: 'admin',
-                                    child: Text('Halman Admin'),
-                                  ));
+
+                                if (sp.role == 'ADMIN') {
+                                  items.insert(
+                                      1,
+                                      const PopupMenuItem<String>(
+                                        value: 'admin',
+                                        child: Text('Halman Admin'),
+                                      ));
                                 }
                                 return items;
                               },
                             ),
-
                           ],
                         ),
                       ),

@@ -31,6 +31,7 @@ dependencies:
   expansion_tile_card: ^3.0.0
   rounded_loading_button: ^2.1.0
   font_awesome_icon_class: ^0.0.6
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:
