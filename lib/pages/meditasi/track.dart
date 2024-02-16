@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-
 class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static String? _currentAudioFile;
-
   static final Map<String, bool> _isPlayingMap = {};
-
   static Future<void> playAudio(String audioFile, BuildContext context) async {
     try {
       if (_currentAudioFile != null && _currentAudioFile != audioFile) {
         await _audioPlayer.stop();
         _isPlayingMap[_currentAudioFile!] = false;
       }
-
       await _audioPlayer.play(AssetSource(audioFile));
       _currentAudioFile = audioFile;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Memainkan $audioFile')),
       );
-
       _isPlayingMap[_currentAudioFile!] = true;
     } catch (e) {
       print('Error playing audio: $e');
     }
   }
-
   static Future<void> stopAudio() async {
     try {
       await _audioPlayer.stop();
@@ -38,11 +31,9 @@ class AudioManager {
       print('Error stopping audio: $e');
     }
   }
-
   static bool isPlaying(String audioFile) {
     return _isPlayingMap[audioFile] ?? false;
   }
-
   static Future<void> seekTo(Duration position) async {
     try {
       await _audioPlayer.seek(position);
@@ -51,19 +42,16 @@ class AudioManager {
     }
   }
 }
-
 class TrackPage extends StatelessWidget {
   final String title;
   final String audioFile;
   final IconData icon;
-
   const TrackPage({
     super.key,
     required this.title,
     required this.audioFile,
     required this.icon,
   });
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,29 +67,24 @@ class TrackPage extends StatelessWidget {
     );
   }
 }
-
 class TrackPageContent extends StatefulWidget {
   final String title;
   final String audioFile;
   final IconData icon;
-
   const TrackPageContent({
     super.key,
     required this.title,
     required this.audioFile,
     required this.icon,
   });
-
   @override
   _TrackPageContentState createState() => _TrackPageContentState();
 }
-
 class _TrackPageContentState extends State<TrackPageContent>
     with SingleTickerProviderStateMixin {
   late bool isPlaying;
-  Duration _duration = const Duration();
-  Duration _position = const Duration();
-
+  Duration _duration = Duration();
+  Duration _position = Duration();
   @override
   void initState() {
     super.initState();
@@ -119,13 +102,11 @@ class _TrackPageContentState extends State<TrackPageContent>
       });
     });
   }
-
   @override
   void dispose() {
     AudioManager.stopAudio();
     super.dispose();
   }
-
   Future<void> _toggleAudio() async {
     if (isPlaying) {
       await AudioManager.stopAudio();
@@ -136,7 +117,6 @@ class _TrackPageContentState extends State<TrackPageContent>
       isPlaying = !isPlaying;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -176,11 +156,10 @@ class _TrackPageContentState extends State<TrackPageContent>
           ),
         ),
         const SizedBox(height: 20),
-<<<<<<< HEAD
         Text(
           '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')} / ${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
-          style: const TextStyle(fontSize: 24.0),
-=======
+          style: TextStyle(fontSize: 24.0, color: Colors.blue),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -193,7 +172,6 @@ class _TrackPageContentState extends State<TrackPageContent>
               style: TextStyle(fontSize: 18.0, color: Colors.blue),
             ),
           ],
->>>>>>> 71a150e275da4e8a0a0a61f0e9c234d02e31977f
         ),
         const SizedBox(height: 20),
         Slider(
@@ -233,13 +211,8 @@ class _TrackPageContentState extends State<TrackPageContent>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: isPlaying
-<<<<<<< HEAD
-                    ? const Icon(Icons.stop, size: 18)
-                    : const Icon(Icons.play_arrow, size: 18),
-=======
                     ? Icon(Icons.stop, size: 40, color: Colors.blue)
                     : Icon(Icons.play_arrow, size: 40, color: Colors.blue),
->>>>>>> 71a150e275da4e8a0a0a61f0e9c234d02e31977f
               ),
             ),
           ],
