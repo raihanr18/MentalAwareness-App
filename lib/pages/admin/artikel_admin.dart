@@ -12,9 +12,9 @@ class _ArtikelAdminState extends State<ArtikelAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Artikel Admin'),
+        title: const Text('Artikel Admin'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Artikel Admin'),
       ),
     );

@@ -99,8 +99,8 @@ class TrackPageContent extends StatefulWidget {
 class _TrackPageContentState extends State<TrackPageContent>
     with SingleTickerProviderStateMixin {
   late bool isPlaying;
-  Duration _duration = Duration();
-  Duration _position = Duration();
+  Duration _duration = const Duration();
+  Duration _position = const Duration();
 
   @override
   void initState() {
@@ -178,7 +178,7 @@ class _TrackPageContentState extends State<TrackPageContent>
         const SizedBox(height: 20),
         Text(
           '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')} / ${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
-          style: TextStyle(fontSize: 24.0),
+          style: const TextStyle(fontSize: 24.0),
         ),
         const SizedBox(height: 20),
         Slider(
@@ -216,8 +216,8 @@ class _TrackPageContentState extends State<TrackPageContent>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: isPlaying
-                    ? Icon(Icons.stop, size: 18)
-                    : Icon(Icons.play_arrow, size: 18),
+                    ? const Icon(Icons.stop, size: 18)
+                    : const Icon(Icons.play_arrow, size: 18),
               ),
             ),
           ],

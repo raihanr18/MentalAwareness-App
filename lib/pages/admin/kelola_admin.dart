@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class KelolaAdmin extends StatefulWidget {
-  const KelolaAdmin({Key? key}) : super(key: key);
+  const KelolaAdmin({super.key});
 
   @override
   State<KelolaAdmin> createState() => _KelolaAdminState();

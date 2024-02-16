@@ -7,7 +7,7 @@ import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 class ResultPage extends StatefulWidget {
   final List<Option> userAnswers;
 
-  const ResultPage({Key? key, required this.userAnswers}) : super(key: key);
+  const ResultPage({super.key, required this.userAnswers});
 
   @override
   State<ResultPage> createState() => ResultPageState();

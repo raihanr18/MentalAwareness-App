@@ -12,9 +12,9 @@ class _MeditasiAdminState extends State<MeditasiAdmin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meditasi Admin'),
+        title: const Text('Meditasi Admin'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Meditasi Admin'),
       ),
     );

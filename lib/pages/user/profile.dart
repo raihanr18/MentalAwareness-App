@@ -8,7 +8,7 @@ import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => ProfilePageState();
@@ -164,7 +164,7 @@ class ProfilePageState extends State<ProfilePage> {
                                     Text(
                                       '${lc.bio}',
                                       style:
-                                          TextStyle(fontSize: 16, height: 1.4),
+                                          const TextStyle(fontSize: 16, height: 1.4),
                                     ),
                                   ],
                                 ),

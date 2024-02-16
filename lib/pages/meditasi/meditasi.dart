@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'track.dart';
 
 class MeditasiPage extends StatelessWidget {
-  const MeditasiPage({Key? key});
+  const MeditasiPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -55,11 +55,11 @@ class MeditasiListItem extends StatefulWidget {
   final IconData icon;
 
   const MeditasiListItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.audioFile,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   _MeditasiListItemState createState() => _MeditasiListItemState();

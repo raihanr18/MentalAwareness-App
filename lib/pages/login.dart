@@ -10,7 +10,7 @@ import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/snack_bar.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();

@@ -74,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: _controller.value.isInitialized
-            ? Container(
+            ? SizedBox(
               height: height,
               width: width,
               child: AspectRatio(

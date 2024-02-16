@@ -11,7 +11,7 @@ import 'package:healman_mental_awareness/pages/admin/meditasi_admin.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
 
 class AdminPage extends StatelessWidget {
-  AdminPage({Key? key}) : super(key: key);
+  AdminPage({super.key});
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -380,13 +380,13 @@ class AdminPage extends StatelessWidget {
                       height: 20.0,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Container(
                       width: double.infinity,
                       height: 20.0,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Container(
                       width: 80.0,
                       height: 20.0,
@@ -436,13 +436,13 @@ class AdminPage extends StatelessWidget {
                       height: 20.0,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Container(
                       width: double.infinity,
                       height: 20.0,
                       color: Colors.white,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Container(
                       width: 80.0,
                       height: 20.0,
@@ -460,7 +460,7 @@ class AdminPage extends StatelessWidget {
 }
 
 class _ProfileIcon extends StatelessWidget {
-  const _ProfileIcon({Key? key}) : super(key: key);
+  const _ProfileIcon();
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+  const EditProfile({super.key});
 
   @override
   State<EditProfile> createState() => EditProfileState();
@@ -170,7 +170,7 @@ class EditProfileState extends State<EditProfile> {
                                   // Show a snackbar if the process is successful
                                   _showSuccessSnackBar('Data berhasil diubah');
                                 },
-                                child: Text('Simpan Perubahan'),
+                                child: const Text('Simpan Perubahan'),
                               ),
                             ],
                           ),
@@ -192,7 +192,7 @@ class EditProfileState extends State<EditProfile> {
       SnackBar(
         content: Text(message),
         backgroundColor: Colors.green,
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
   }
