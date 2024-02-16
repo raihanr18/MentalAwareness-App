@@ -30,11 +30,42 @@ class LoginController extends ChangeNotifier {
   String? _name;
   String? get name => _name;
 
+  String? _bio;
+  String? get bio => _bio;
+
   String? _imageUrl;
   String? get imageUrl => _imageUrl;
 
   LoginController() {
     checkSignInUser();
+  }
+
+  // Method to update name
+  void updateName(String newName) {
+    _name = newName;
+    notifyListeners();
+  }
+
+  // Method to update bio
+  void updateBio(String newBio) {
+    _bio = newBio;
+    notifyListeners();
+  }
+
+  Future<void> tambahAdmin(String email) async {
+    try {
+      if (email.isEmpty) {
+        throw 'Email tidak boleh kosong';
+      }
+
+      // Tambahkan admin ke Firestore dengan peran ADMIN
+      await FirebaseFirestore.instance.collection('users').add({
+        'email': email,
+        'role': 'ADMIN',
+      });
+    } catch (e) {
+      throw e.toString();
+    }
   }
 
   Future checkSignInUser() async {
@@ -73,6 +104,7 @@ class LoginController extends ChangeNotifier {
         _uid = userDetails.uid;
         _imageUrl = userDetails.photoURL;
         _role = "USER";
+        _bio = "Bio belum di isi";
         _uid = userDetails.uid;
 
         await saveDataSharedPref();
@@ -114,6 +146,7 @@ class LoginController extends ChangeNotifier {
               _email = snapshot['email'],
               _imageUrl = snapshot['image_url'],
               _role = snapshot['role'],
+              _bio = snapshot['bio'] ?? "Bio belum di isi"
             });
   }
 
@@ -125,6 +158,20 @@ class LoginController extends ChangeNotifier {
       'email': _email,
       'image_url': _imageUrl,
       'role': _role,
+      'bio': _bio,
+      'uid': _uid,
+    });
+    notifyListeners();
+  }
+  Future updateDataUsers() async {
+    final DocumentReference r =
+        FirebaseFirestore.instance.collection('users').doc(uid);
+    await r.update({
+      'name': _name,
+      'email': _email,
+      'image_url': _imageUrl,
+      'role': _role,
+      'bio': _bio,
       'uid': _uid,
     });
     notifyListeners();
@@ -136,6 +183,7 @@ class LoginController extends ChangeNotifier {
     await s.setString('email', _email!);
     await s.setString('uid', _uid!);
     await s.setString('image_url', _imageUrl!);
+    await s.setString('bio', _bio!);
     await s.setString('role', _role!);
     notifyListeners();
   }
@@ -146,6 +194,7 @@ class LoginController extends ChangeNotifier {
     _email = s.getString('email');
     _imageUrl = s.getString('image_url');
     _uid = s.getString('uid');
+    _bio = s.getString('bio');
     _role = s.getString('role');
     notifyListeners();
   }

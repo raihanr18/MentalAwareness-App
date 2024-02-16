@@ -6,10 +6,9 @@ import 'package:healman_mental_awareness/pages/user/edit_profile.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => ProfilePageState();
@@ -19,10 +18,15 @@ class ProfilePageState extends State<ProfilePage> {
   late double height, width;
 
   @override
+  void initState() {
+    super.initState();
+    final lc = context.read<LoginController>();
+    lc.getUserDataFirestore(lc.uid); // Panggil fungsi getUserDataFirestore saat halaman diinisialisasi
+  }
+
+  @override
   Widget build(BuildContext context) {
     final lc = context.watch<LoginController>();
-    final RoundedLoadingButtonController buttonController =
-        RoundedLoadingButtonController();
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
 
@@ -91,29 +95,19 @@ class ProfilePageState extends State<ProfilePage> {
                               children: <Widget>[
                                 // isi
                                 Positioned(
-                                  child: RoundedLoadingButton(
-                                    onPressed: () {
-                                      nextPage(context, const HomePage());
-                                      buttonController.success();
-                                      buttonController.reset();
-                                    },
-                                    height: 32,
-                                    width: 100,
-                                    elevation: 0,
-                                    controller: buttonController,
-                                    successColor: Colors.green,
-                                    color: Colors.transparent,
-                                    valueColor: Colors.white,
-                                    borderRadius: 15,
-                                    child: Wrap(
-                                      children: [
-                                        const SizedBox(width: 20),
-                                        Image.asset(
+                                  child: Wrap(
+                                    children: [
+                                      const SizedBox(width: 20),
+                                      GestureDetector(
+                                        onTap: () {
+                                          nextPage(context, const HomePage());
+                                        },
+                                        child: Image.asset(
                                           'assets/icon/back-profile.png',
                                           width: 100,
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -157,18 +151,18 @@ class ProfilePageState extends State<ProfilePage> {
                               Container(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 48),
-                                child: const Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Tentang Saya',
+                                    const Text(
+                                      "Tentang saya",
                                       style: TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(height: 16),
+                                    const SizedBox(height: 16),
                                     Text(
-                                      'Belum terisi',
+                                      '${lc.bio}',
                                       style:
                                           TextStyle(fontSize: 16, height: 1.4),
                                     ),

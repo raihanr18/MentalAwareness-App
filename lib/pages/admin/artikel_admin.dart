@@ -10,6 +10,13 @@ class ArtikelAdmin extends StatefulWidget {
 class _ArtikelAdminState extends State<ArtikelAdmin> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Artikel Admin'),
+      ),
+      body: Center(
+        child: Text('Artikel Admin'),
+      ),
+    );
   }
 }
