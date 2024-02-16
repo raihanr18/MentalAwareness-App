@@ -90,124 +90,124 @@ class _QuizPageState extends State<QuizPage> {
             ),
 
             // Card 2
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: ExpansionTileCard(
-                key: cardB,
-                leading: CircleAvatar(
-                    backgroundColor: Colors.blue.shade100,
-                    child: Image.asset('assets/icon/loneliness.png')),
-                title:
-                    const Text('Quiz Tingkat Rasa Kesepian: Loneliness Scale'),
-                children: <Widget>[
-                  const Divider(
-                    thickness: 1.0,
-                    height: 1.0,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
-                      ),
-                      child: Text(
-                        """Tes ini mengukur seberapa kesepian seseorang dengan menilai aspek keterlibatan sosial dan dukungan emosional. """,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.spaceAround,
-                    buttonHeight: 52.0,
-                    buttonMinWidth: 90.0,
-                    children: <Widget>[
-                      TextButton(
-                        style: flatButtonStyle,
-                        onPressed: () {
-                          //
-                        },
-                        child: const Column(
-                          children: <Widget>[
-                            Icon(Icons.quiz_rounded, color: Colors.blue),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2.0),
-                            ),
-                            Text(
-                              'Coba Quiz',
-                              style: TextStyle(
-                                  color: Colors.blue, fontFamily: 'Poppins'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            //   child: ExpansionTileCard(
+            //     key: cardB,
+            //     leading: CircleAvatar(
+            //         backgroundColor: Colors.blue.shade100,
+            //         child: Image.asset('assets/icon/loneliness.png')),
+            //     title:
+            //         const Text('Quiz Tingkat Rasa Kesepian: Loneliness Scale'),
+            //     children: <Widget>[
+            //       const Divider(
+            //         thickness: 1.0,
+            //         height: 1.0,
+            //       ),
+            //       Align(
+            //         alignment: Alignment.centerLeft,
+            //         child: Padding(
+            //           padding: const EdgeInsets.symmetric(
+            //             horizontal: 16.0,
+            //             vertical: 8.0,
+            //           ),
+            //           child: Text(
+            //             """Tes ini mengukur seberapa kesepian seseorang dengan menilai aspek keterlibatan sosial dan dukungan emosional. """,
+            //             style: Theme.of(context)
+            //                 .textTheme
+            //                 .bodyMedium!
+            //                 .copyWith(fontSize: 16),
+            //           ),
+            //         ),
+            //       ),
+            //       ButtonBar(
+            //         alignment: MainAxisAlignment.spaceAround,
+            //         buttonHeight: 52.0,
+            //         buttonMinWidth: 90.0,
+            //         children: <Widget>[
+            //           TextButton(
+            //             style: flatButtonStyle,
+            //             onPressed: () {
+            //               //
+            //             },
+            //             child: const Column(
+            //               children: <Widget>[
+            //                 Icon(Icons.quiz_rounded, color: Colors.blue),
+            //                 Padding(
+            //                   padding: EdgeInsets.symmetric(vertical: 2.0),
+            //                 ),
+            //                 Text(
+            //                   'Coba Quiz',
+            //                   style: TextStyle(
+            //                       color: Colors.blue, fontFamily: 'Poppins'),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: ExpansionTileCard(
-                key: cardC,
-                leading: CircleAvatar(
-                    backgroundColor: Colors.blue.shade100,
-                    child: Image.asset('assets/icon/persona.png')),
-                title: const Text('Quiz Kepribadian Big Five'),
-                children: <Widget>[
-                  const Divider(
-                    thickness: 1.0,
-                    height: 1.0,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 8.0,
-                      ),
-                      child: Text(
-                        """Tes ini memecah kepribadian ke dalam lima dimensi utama: Keterbukaan, Kesadaran, Ekstroversi, Kebaikan Hati, dan Neurotisisme. Memberikan wawasan tentang karakteristik kepribadian seseorang. """,
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  ButtonBar(
-                    alignment: MainAxisAlignment.spaceAround,
-                    buttonHeight: 52.0,
-                    buttonMinWidth: 90.0,
-                    children: <Widget>[
-                      TextButton(
-                        style: flatButtonStyle,
-                        onPressed: () {
-                          //
-                        },
-                        child: const Column(
-                          children: <Widget>[
-                            Icon(Icons.quiz_rounded, color: Colors.blue),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2.0),
-                            ),
-                            Text(
-                              'Coba Quiz',
-                              style: TextStyle(
-                                  color: Colors.blue, fontFamily: 'Poppins'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+            //   child: ExpansionTileCard(
+            //     key: cardC,
+            //     leading: CircleAvatar(
+            //         backgroundColor: Colors.blue.shade100,
+            //         child: Image.asset('assets/icon/persona.png')),
+            //     title: const Text('Quiz Kepribadian Big Five'),
+            //     children: <Widget>[
+            //       const Divider(
+            //         thickness: 1.0,
+            //         height: 1.0,
+            //       ),
+            //       Align(
+            //         alignment: Alignment.centerLeft,
+            //         child: Padding(
+            //           padding: const EdgeInsets.symmetric(
+            //             horizontal: 16.0,
+            //             vertical: 8.0,
+            //           ),
+            //           child: Text(
+            //             """Tes ini memecah kepribadian ke dalam lima dimensi utama: Keterbukaan, Kesadaran, Ekstroversi, Kebaikan Hati, dan Neurotisisme. Memberikan wawasan tentang karakteristik kepribadian seseorang. """,
+            //             style: Theme.of(context)
+            //                 .textTheme
+            //                 .bodyMedium!
+            //                 .copyWith(fontSize: 16),
+            //           ),
+            //         ),
+            //       ),
+            //       ButtonBar(
+            //         alignment: MainAxisAlignment.spaceAround,
+            //         buttonHeight: 52.0,
+            //         buttonMinWidth: 90.0,
+            //         children: <Widget>[
+            //           TextButton(
+            //             style: flatButtonStyle,
+            //             onPressed: () {
+            //               //
+            //             },
+            //             child: const Column(
+            //               children: <Widget>[
+            //                 Icon(Icons.quiz_rounded, color: Colors.blue),
+            //                 Padding(
+            //                   padding: EdgeInsets.symmetric(vertical: 2.0),
+            //                 ),
+            //                 Text(
+            //                   'Coba Quiz',
+            //                   style: TextStyle(
+            //                       color: Colors.blue, fontFamily: 'Poppins'),
+            //                 ),
+            //               ],
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
