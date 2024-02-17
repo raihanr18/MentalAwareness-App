@@ -488,11 +488,6 @@ final List<Card> _cards = [
     image: "assets/user-trans.png",
   ),
   Card(
-    title: "Jumlah Artikel",
-    textCard: "20",
-    image: "assets/article.png",
-  ),
-  Card(
     title: "Jumlah Admin",
     textCard: "20",
     image: "assets/admin.png",

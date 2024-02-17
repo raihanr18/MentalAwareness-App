@@ -156,10 +156,10 @@ class _TrackPageContentState extends State<TrackPageContent>
           ),
         ),
         const SizedBox(height: 20),
-        Text(
-          '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')} / ${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
-          style: TextStyle(fontSize: 24.0, color: Colors.blue),
-        ),
+        // Text(
+        //   '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')} / ${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
+        //   style: TextStyle(fontSize: 24.0, color: Colors.blue),
+        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

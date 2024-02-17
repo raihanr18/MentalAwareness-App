@@ -9,6 +9,7 @@ import 'package:healman_mental_awareness/pages/splash_screen.dart';
 // Package
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:healman_mental_awareness/pages/view_article.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 
