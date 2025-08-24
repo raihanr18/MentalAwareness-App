@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healman_mental_awareness/models/Question.dart';
+import 'package:healman_mental_awareness/models/question.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
@@ -28,14 +28,14 @@ class ResultPageState extends State<ResultPage> {
   void calculateMBTIType() {
     // Hitung jumlah jawaban untuk setiap jenis kepribadian
     Map<AnswerType, int> counts = {
-      AnswerType.Introvert: 0,
-      AnswerType.Extrovert: 0,
-      AnswerType.Sensing: 0,
-      AnswerType.Intuition: 0,
-      AnswerType.Thinking: 0,
-      AnswerType.Feeling: 0,
-      AnswerType.Judging: 0,
-      AnswerType.Perceiving: 0,
+      AnswerType.introvert: 0,
+      AnswerType.extrovert: 0,
+      AnswerType.sensing: 0,
+      AnswerType.intuition: 0,
+      AnswerType.thinking: 0,
+      AnswerType.feeling: 0,
+      AnswerType.judging: 0,
+      AnswerType.perceiving: 0,
     };
 
     for (var answer in widget.userAnswers) {
@@ -44,14 +44,14 @@ class ResultPageState extends State<ResultPage> {
 
     // Tentukan jenis kepribadian berdasarkan perhitungan
     String mbti = '';
-    mbti += counts[AnswerType.Extrovert]! > counts[AnswerType.Introvert]!
+    mbti += counts[AnswerType.extrovert]! > counts[AnswerType.introvert]!
         ? 'E'
         : 'I';
     mbti +=
-        counts[AnswerType.Sensing]! > counts[AnswerType.Intuition]! ? 'S' : 'N';
+        counts[AnswerType.sensing]! > counts[AnswerType.intuition]! ? 'S' : 'N';
     mbti +=
-        counts[AnswerType.Thinking]! > counts[AnswerType.Feeling]! ? 'T' : 'F';
-    mbti += counts[AnswerType.Judging]! > counts[AnswerType.Perceiving]!
+        counts[AnswerType.thinking]! > counts[AnswerType.feeling]! ? 'T' : 'F';
+    mbti += counts[AnswerType.judging]! > counts[AnswerType.perceiving]!
         ? 'J'
         : 'P';
 

@@ -62,7 +62,7 @@ class MeditasiListItem extends StatefulWidget {
   });
 
   @override
-  _MeditasiListItemState createState() => _MeditasiListItemState();
+  State<MeditasiListItem> createState() => _MeditasiListItemState();
 }
 
 class _MeditasiListItemState extends State<MeditasiListItem> {

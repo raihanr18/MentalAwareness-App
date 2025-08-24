@@ -7,7 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginController extends ChangeNotifier {
   // Firebase Instance
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'profile',
+    ],
+    // Remove hostedDomain to allow any Google account
+    signInOption: SignInOption.standard,
+  );
 
   bool _isSignedIn = false;
   bool get isSignedIn => _isSignedIn;
@@ -83,86 +90,195 @@ class LoginController extends ChangeNotifier {
 
   // Login Google
   Future loginWithGoogle() async {
-    final GoogleSignInAccount? googleSignInAccount =
-        await googleSignIn.signIn();
+    try {
+      // Clear any previous errors
+      _hasErrors = false;
+      _errorCode = null;
 
-    if (googleSignInAccount != null) {
-      try {
-        final GoogleSignInAuthentication googleSignInAuthentication =
-            await googleSignInAccount.authentication;
-        final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleSignInAuthentication.accessToken,
-          idToken: googleSignInAuthentication.idToken,
-        );
+      // Check Google Play Services availability first
+      await googleSignIn.isSignedIn();
 
-        final User userDetails =
-            (await firebaseAuth.signInWithCredential(credential)).user!;
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignIn.signIn();
 
-        // Save user data
-        _name = userDetails.displayName;
-        _email = userDetails.email;
-        _uid = userDetails.uid;
-        _imageUrl = userDetails.photoURL;
-        _role = "USER";
-        _bio = "Bio belum di isi";
-        _uid = userDetails.uid;
+      if (googleSignInAccount != null) {
+        try {
+          final GoogleSignInAuthentication googleSignInAuthentication =
+              await googleSignInAccount.authentication;
 
-        await saveDataSharedPref();
-
-        notifyListeners();
-      } on FirebaseAuthException catch (e) {
-        switch (e.code) {
-          case 'account-exists-with-different-credentials':
-            _errorCode = "Akun ini sudah terdaftar, coba dengan akun yang lain";
+          if (googleSignInAuthentication.accessToken == null ||
+              googleSignInAuthentication.idToken == null) {
+            _errorCode = "Gagal mendapatkan token autentikasi";
             _hasErrors = true;
             notifyListeners();
-            break;
-          case 'null':
-            _errorCode = "Beberapa kesalahan tak terduga saat mencoba masuk";
+            return;
+          }
+
+          final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken,
+          );
+
+          final UserCredential authResult =
+              await firebaseAuth.signInWithCredential(credential);
+
+          final User? userDetails = authResult.user;
+
+          if (userDetails == null) {
+            _errorCode = "Gagal mendapatkan data pengguna";
             _hasErrors = true;
             notifyListeners();
-            break;
-          default:
-            _errorCode = e.toString();
-            _hasErrors = true;
-            notifyListeners();
+            return;
+          }
+
+          // Save user data
+          _name = userDetails.displayName ?? "User";
+          _email = userDetails.email;
+          _uid = userDetails.uid;
+          _imageUrl = userDetails.photoURL;
+          _role = "USER";
+          _bio = "Bio belum di isi";
+
+          // Don't call saveDataSharedPref here, let the UI handle it
+          notifyListeners();
+        } on FirebaseAuthException catch (e) {
+          switch (e.code) {
+            case 'account-exists-with-different-credentials':
+              _errorCode =
+                  "Akun ini sudah terdaftar, coba dengan akun yang lain";
+              break;
+            case 'invalid-credential':
+              _errorCode = "Kredensial tidak valid";
+              break;
+            case 'operation-not-allowed':
+              _errorCode = "Login Google tidak diizinkan";
+              break;
+            case 'user-disabled':
+              _errorCode = "Akun pengguna telah dinonaktifkan";
+              break;
+            case 'user-not-found':
+              _errorCode = "Pengguna tidak ditemukan";
+              break;
+            case 'wrong-password':
+              _errorCode = "Password salah";
+              break;
+            default:
+              _errorCode = "Kesalahan autentikasi: ${e.message}";
+          }
+          _hasErrors = true;
+          notifyListeners();
         }
+      } else {
+        // User cancelled the sign-in
+        _errorCode = "Login dibatalkan";
+        _hasErrors = true;
+        notifyListeners();
       }
-    } else {
+    } catch (e) {
+      // Handle specific Google Play Services errors
+      String errorString = e.toString().toLowerCase();
+
+      if (errorString.contains('google play services') ||
+          errorString.contains('apiexception: 10') ||
+          errorString.contains('sign_in_required') ||
+          errorString.contains('service_missing') ||
+          errorString.contains('service_version_update_required')) {
+        _errorCode =
+            "Google Play Services tidak tersedia atau perlu diupdate. Silakan:\n"
+            "1. Update Google Play Services di emulator\n"
+            "2. Restart emulator\n"
+            "3. Atau gunakan device fisik";
+      } else if (errorString.contains('network_error') ||
+          errorString.contains('no internet')) {
+        _errorCode = "Tidak ada koneksi internet. Periksa koneksi Anda.";
+      } else if (errorString.contains('cancelled') ||
+          errorString.contains('user_cancelled')) {
+        _errorCode = "Login dibatalkan oleh pengguna";
+      } else {
+        _errorCode = "Kesalahan tidak terduga: ${e.toString()}";
+      }
+
       _hasErrors = true;
       notifyListeners();
     }
   }
 
+  // Alternative login method for testing (Development only)
+  Future loginAsTestUser() async {
+    try {
+      _hasErrors = false;
+      _errorCode = null;
+
+      // Simulate test user data
+      _name = "Test User";
+      _email = "testuser@example.com";
+      _uid = "test_user_${DateTime.now().millisecondsSinceEpoch}";
+      _imageUrl = "assets/user.png"; // Use local asset instead of external URL
+      _role = "USER";
+      _bio = "Test user untuk development";
+
+      await saveDataSharedPref();
+      await setLogin();
+
+      notifyListeners();
+    } catch (e) {
+      _errorCode = "Gagal login sebagai test user: ${e.toString()}";
+      _hasErrors = true;
+      notifyListeners();
+    }
+  }
+
+  // Check if app is in debug mode
+  bool get isDebugMode {
+    bool inDebugMode = false;
+    assert(inDebugMode = true);
+    return inDebugMode;
+  }
+
   // Insert User
   Future getUserDataFirestore(uid) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get()
-        .then((DocumentSnapshot snapshot) => {
-              _uid = snapshot['uid'],
-              _name = snapshot['name'],
-              _email = snapshot['email'],
-              _imageUrl = snapshot['image_url'],
-              _role = snapshot['role'],
-              _bio = snapshot['bio'] ?? "Bio belum di isi"
-            });
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get()
+          .then((DocumentSnapshot snapshot) => {
+                _uid = snapshot['uid'],
+                _name = snapshot['name'],
+                _email = snapshot['email'],
+                _imageUrl = snapshot['image_url'],
+                _role = snapshot['role'],
+                _bio = snapshot['bio'] ?? "Bio belum di isi"
+              });
+    } catch (e) {
+      _errorCode = "Gagal mengambil data pengguna: ${e.toString()}";
+      _hasErrors = true;
+      notifyListeners();
+      rethrow;
+    }
   }
 
   Future saveDataUsers() async {
-    final DocumentReference r =
-        FirebaseFirestore.instance.collection('users').doc(uid);
-    await r.set({
-      'name': _name,
-      'email': _email,
-      'image_url': _imageUrl,
-      'role': _role,
-      'bio': _bio,
-      'uid': _uid,
-    });
-    notifyListeners();
+    try {
+      final DocumentReference r =
+          FirebaseFirestore.instance.collection('users').doc(uid);
+      await r.set({
+        'name': _name,
+        'email': _email,
+        'image_url': _imageUrl,
+        'role': _role,
+        'bio': _bio,
+        'uid': _uid,
+      });
+      notifyListeners();
+    } catch (e) {
+      _errorCode = "Gagal menyimpan data pengguna: ${e.toString()}";
+      _hasErrors = true;
+      notifyListeners();
+      rethrow;
+    }
   }
+
   Future updateDataUsers() async {
     final DocumentReference r =
         FirebaseFirestore.instance.collection('users').doc(uid);
@@ -204,10 +320,10 @@ class LoginController extends ChangeNotifier {
     DocumentSnapshot snap =
         await FirebaseFirestore.instance.collection('users').doc(_uid).get();
     if (snap.exists) {
-      print('Pengguna Sudah Ada');
+      // print('Pengguna Sudah Ada'); // Commented out for production
       return true;
     } else {
-      print('Pengguna Baru');
+      // print('Pengguna Baru'); // Commented out for production
       return false;
     }
   }

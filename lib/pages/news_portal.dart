@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'view_article.dart';
 
 class NewsPortal extends StatefulWidget {
-  const NewsPortal({Key? key}) : super(key: key);
+  const NewsPortal({super.key});
 
   @override
   State<NewsPortal> createState() => _NewsPortalState();
@@ -55,11 +55,10 @@ class _NewsPortalState extends State<NewsPortal> {
             break;
           }
         } else {
-          print(
-              'Data dari salah satu API bernilai null atau tidak memiliki properti "articles".');
+          // print('Data dari salah satu API bernilai null atau tidak memiliki properti "articles".'); // Commented out for production
         }
       } else {
-        print('Gagal memuat berita. Kode status: ${response.statusCode}');
+        // print('Gagal memuat berita. Kode status: ${response.statusCode}'); // Commented out for production
       }
     }
 
@@ -106,7 +105,7 @@ class _NewsPortalState extends State<NewsPortal> {
                             overflow: TextOverflow.ellipsis,
                           ),
                           subtitle: Text("${item.author} · ${item.postedOn}",
-                              style: Theme.of(context).textTheme.bodyText1),
+                              style: Theme.of(context).textTheme.bodyLarge),
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),

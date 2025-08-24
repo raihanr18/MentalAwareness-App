@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/pages/quiz/quiz_mbti.dart';
-import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Mbti extends StatefulWidget {
   const Mbti({super.key});
@@ -14,8 +13,7 @@ class Mbti extends StatefulWidget {
 dynamic height, width;
 
 class _MbtiState extends State<Mbti> {
-  final RoundedLoadingButtonController mulaiController =
-      RoundedLoadingButtonController();
+  bool isMulaiLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -74,29 +72,51 @@ class _MbtiState extends State<Mbti> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          RoundedLoadingButton(
-                            onPressed: () {
-                              nextPage(context, const QuizMbti());
-                              mulaiController.success();
-                              mulaiController.reset();
-                            },
+                          SizedBox(
                             height: 80,
                             width: 320,
-                            controller: mulaiController,
-                            successColor: Colors.green,
-                            color: Colors.blue,
-                            valueColor: Colors.white,
-                            borderRadius: 15,
-                            child: const Wrap(
-                              children: [
-                                Text(
-                                  "Mulai",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 40,
-                                      fontFamily: 'Poppins'),
+                            child: ElevatedButton(
+                              onPressed: isMulaiLoading
+                                  ? null
+                                  : () async {
+                                      setState(() {
+                                        isMulaiLoading = true;
+                                      });
+
+                                      final navigator = Navigator.of(context);
+                                      await Future.delayed(
+                                          const Duration(milliseconds: 500));
+                                      if (mounted) {
+                                        navigator.pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const QuizMbti(),
+                                          ),
+                                        );
+                                        setState(() {
+                                          isMulaiLoading = false;
+                                        });
+                                      }
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                              ],
+                              ),
+                              child: isMulaiLoading
+                                  ? LoadingAnimationWidget.staggeredDotsWave(
+                                      color: Colors.white,
+                                      size: 30,
+                                    )
+                                  : const Text(
+                                      "Mulai",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 40,
+                                          fontFamily: 'Poppins'),
+                                    ),
                             ),
                           )
                         ],

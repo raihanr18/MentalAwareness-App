@@ -13,14 +13,14 @@ class Option {
 }
 
 enum AnswerType {
-  Introvert,
-  Extrovert,
-  Sensing,
-  Intuition,
-  Thinking,
-  Feeling,
-  Judging,
-  Perceiving,
+  introvert,
+  extrovert,
+  sensing,
+  intuition,
+  thinking,
+  feeling,
+  judging,
+  perceiving,
 }
 
 // Soal
@@ -30,11 +30,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menikmati waktu sendirian',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     Option(
       text: '''Menikmati waktu bersama orang lain''',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     ]
   ),
@@ -43,11 +43,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Teori dan konsep',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Pengalaman dan praktik',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),
@@ -56,11 +56,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Logika dan objektivitas',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Perasaan dan subjektivitas',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -69,11 +69,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Merencakan segalanya',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Bersikap spontan dan fleksibel',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -82,11 +82,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Berbicara dan berkomunikasi',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     Option(
       text: 'Mendengarkan dan mengamati',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     ]
   ),
@@ -95,11 +95,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bekerja dengan orang lain',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Bekerja mandiri',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -108,11 +108,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Mengikuti aturan dan prosedur',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Melanggar aturan dan menciptakan inovasi',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -121,11 +121,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Fokus pada detail',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Fokus pada gambaran besar',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -134,11 +134,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Realistis dan pragmatis',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Idealis dan visioner',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -147,11 +147,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Mengekspresikan diri secara terbuka',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Menjaga privasi diri',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -160,11 +160,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menghabiskan waktu di masa depan',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     Option(
       text: 'Menghabiskan waktu di masa sekarang',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     ]
   ),
@@ -173,11 +173,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menganalisis dan memecahkan',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Menciptakan dan menghasilkan ide baru',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),
@@ -186,11 +186,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Pemimpin dan pengatur',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Pengikut dan pelaksana',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -199,11 +199,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap tegas dan blak-blakan',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Bersikap diplomatis dan halus',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -212,11 +212,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menjadi objektif dan imparsial',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Menjadi subjektif dan personal',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -225,11 +225,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Berfokus pada fakta dan data',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Berfokus pada nilai dan keyakinan',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -238,11 +238,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Logika dan rasionalitas',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     Option(
       text: 'Emosi dan kepekaan',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     ]
   ),
@@ -251,11 +251,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Aktivitas diluar ruangan',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Ketenangan di dalam ruangan',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),
@@ -264,11 +264,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap spontan dan impulsif',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Bersikap terencana dan hati-hati',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -277,11 +277,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Pemikir dan konseptor',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Pelaku dan eksekutor',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -290,11 +290,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menganalisis dan memecahkan',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Menciptakan dan menghasilkan ide baru',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -303,11 +303,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Pemimpin dan pengatur',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Pengikut dan pelaksana',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -316,11 +316,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap tegas dan blak-blakan',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     Option(
       text: 'Bersikap diplomatis dan halus',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     ]
   ),
@@ -329,11 +329,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menjadi objektif dan imparsial',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Menjadi subjektif dan personal',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),
@@ -342,11 +342,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap logis dan rasional',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Bersikap emosional dan sensitif',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -355,11 +355,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Dikelilingi banyak teman',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Dengan beberapa teman dekat',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -368,11 +368,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Berbicara tentang ide dan konsep',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Berbicara tentang orang dan pengalaman',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -381,11 +381,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Mengambil risiko dan mencoba hal baru',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     Option(
       text: 'Menghindari risiko dan bermain aman',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     ]
   ),
@@ -394,11 +394,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap konsisten dan stabil',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Bersikap fleksibel dan mudah beradaptasi',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),
@@ -407,11 +407,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Tangan dan benda',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     Option(
       text: 'Ide dan konsep',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     ]
   ),
@@ -420,11 +420,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menjadi pemimpin dan pengatur',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Menjadi pengikut dan pelaksana',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -433,11 +433,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap tegas dan blak-blakan',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Menjadi pendengar yang baik dan memahami',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -446,11 +446,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Menjadi objektif dan imparsial',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Menjadi subjektif dan personal',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -459,11 +459,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Fokus pada fakta dan data',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     Option(
       text: 'Fokus pada nilai dan keyakinan',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     ]
   ),
@@ -472,11 +472,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap logis dan rasional',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     Option(
       text: 'Bersikap emosional dan sensitif',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),
@@ -485,11 +485,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Mengikuti aturan dan prosedur',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Melanggar aturan dan menciptakan inovasi',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -498,11 +498,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Serius',
-      type: AnswerType.Judging,
+      type: AnswerType.judging,
     ),
     Option(
       text: 'Humoris',
-      type: AnswerType.Perceiving,
+      type: AnswerType.perceiving,
     ),
     ]
   ),
@@ -511,11 +511,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Bersikap introspektif dan reflektif',
-      type: AnswerType.Introvert,
+      type: AnswerType.introvert,
     ),
     Option(
       text: 'Bersikap ekspresif dan spontan',
-      type: AnswerType.Extrovert,
+      type: AnswerType.extrovert,
     ),
     ]
   ),
@@ -524,11 +524,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Fokus pada fakta dan data',
-      type: AnswerType.Thinking,
+      type: AnswerType.thinking,
     ),
     Option(
       text: 'Fokus pada nilai dan kenyataan',
-      type: AnswerType.Feeling,
+      type: AnswerType.feeling,
     ),
     ]
   ),
@@ -537,11 +537,11 @@ List<Question> questions = [
     options: [
     Option(
       text: 'Mempunyai banyak minat dan bakat',
-      type: AnswerType.Sensing,
+      type: AnswerType.sensing,
     ),
     Option(
       text: 'Mempunyai beberapa minat dan bakat yang mendalam',
-      type: AnswerType.Intuition,
+      type: AnswerType.intuition,
     ),
     ]
   ),

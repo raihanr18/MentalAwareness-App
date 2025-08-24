@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:healman_mental_awareness/models/Question.dart';
+import 'package:healman_mental_awareness/models/question.dart';
 import 'package:healman_mental_awareness/pages/quiz/mbti.dart';
 import 'package:healman_mental_awareness/pages/result_page.dart';
-import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:healman_mental_awareness/utils/rounded_widget.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class QuizMbti extends StatefulWidget {
   const QuizMbti({super.key});
@@ -17,8 +16,7 @@ double height = 0.0;
 double width = 0.0;
 
 class _QuizMbtiState extends State<QuizMbti> {
-  final RoundedLoadingButtonController buttonController =
-      RoundedLoadingButtonController();
+  bool isLoading = false;
 
   List<Question> questionList = questions;
   int indexQuestion = 0;
@@ -127,30 +125,50 @@ class _QuizMbtiState extends State<QuizMbti> {
                   Positioned(
                     bottom: 30,
                     left: 20,
-                    child: RoundedLoadingButton(
-                      onPressed: () {
-                        nextPage(context, const Mbti());
-                        buttonController.success();
-                        buttonController.reset();
-                      },
+                    child: SizedBox(
                       height: 32,
                       width: 115,
-                      controller: buttonController,
-                      successColor: Colors.green,
-                      color: Colors.blue,
-                      valueColor: Colors.white,
-                      borderRadius: 15,
-                      child: const Wrap(
-                        children: [
-                          Text(
-                            "Kembali",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'Poppins',
-                            ),
+                      child: ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                final navigator = Navigator.of(context);
+                                await Future.delayed(
+                                    const Duration(milliseconds: 500));
+                                if (mounted) {
+                                  navigator.pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => const Mbti(),
+                                    ),
+                                  );
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                        ],
+                        ),
+                        child: isLoading
+                            ? LoadingAnimationWidget.staggeredDotsWave(
+                                color: Colors.white,
+                                size: 20,
+                              )
+                            : const Text(
+                                "Kembali",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
                       ),
                     ),
                   ),
@@ -162,43 +180,68 @@ class _QuizMbtiState extends State<QuizMbti> {
                     child: AnimatedOpacity(
                       opacity: showNextButton ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 500),
-                      child: showNextButton ? RoundedLoadingButton(
-                        onPressed: () {
-                          setState(() {
-                            if (indexQuestion < questions.length - 1) {
-                              indexQuestion++;
-                              selectedOption = null;
-                              showNextButton = false;
-                            } else {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ResultPage(userAnswers: userAnswers),
+                      child: showNextButton
+                          ? SizedBox(
+                              height: 32,
+                              width: 115,
+                              child: ElevatedButton(
+                                onPressed: isLoading
+                                    ? null
+                                    : () {
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+
+                                        Future.delayed(
+                                            const Duration(milliseconds: 500),
+                                            () {
+                                          setState(() {
+                                            if (indexQuestion <
+                                                questions.length - 1) {
+                                              indexQuestion++;
+                                              selectedOption = null;
+                                              showNextButton = false;
+                                            } else {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ResultPage(
+                                                          userAnswers:
+                                                              userAnswers),
+                                                ),
+                                              );
+                                            }
+                                            isLoading = false;
+                                          });
+                                        });
+                                      },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
                                 ),
-                              );
-                            }
-                          });
-                          buttonController.success();
-                          buttonController.reset();
-                        },
-                        height: 32,
-                        width: 115,
-                        elevation: 0,
-                        controller: buttonController,
-                        successColor: Colors.green,
-                        color: Colors.transparent,
-                        valueColor: Colors.white,
-                        borderRadius: 15,
-                        child: Wrap(
-                          children: [
-                            const SizedBox(width: 20),
-                            Image.asset(
-                              'assets/icon/arrow_next.png',
-                              width: 50,
+                                child: isLoading
+                                    ? LoadingAnimationWidget.staggeredDotsWave(
+                                        color: Colors.white,
+                                        size: 20,
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const SizedBox(width: 20),
+                                          Image.asset(
+                                            'assets/icon/arrow_next.png',
+                                            width: 50,
+                                          )
+                                        ],
+                                      ),
+                              ),
                             )
-                          ],
-                        ),
-                      ) : const SizedBox(), 
+                          : const SizedBox(),
                     ),
                   ),
                 ],
@@ -221,7 +264,7 @@ class _QuizMbtiState extends State<QuizMbti> {
         onPressed: () {
           setState(() {
             selectedOption = option;
-            userAnswers.add(option); 
+            userAnswers.add(option);
             showNextButton = true;
           });
         },
@@ -231,7 +274,7 @@ class _QuizMbtiState extends State<QuizMbti> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
             side: BorderSide(
-              color: isSelected ? Colors.green : Colors.blue, 
+              color: isSelected ? Colors.green : Colors.blue,
               width: 2,
             ),
           ),
@@ -248,11 +291,11 @@ class _QuizMbtiState extends State<QuizMbti> {
                         size: 30,
                       ),
                     )
-                  : null, 
+                  : null,
             ),
             Expanded(
               child: Text(
-                option.text, 
+                option.text,
                 style: const TextStyle(
                     fontSize: 20, fontFamily: 'Poppins', color: Colors.black),
               ),

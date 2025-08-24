@@ -58,29 +58,31 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     ),
                   ),
-                  ButtonBar(
+                  OverflowBar(
                     alignment: MainAxisAlignment.spaceAround,
-                    buttonHeight: 52.0,
-                    buttonMinWidth: 90.0,
                     children: <Widget>[
-                      TextButton(
-                        style: flatButtonStyle,
-                        onPressed: () {
-                          //
-                          nextPage(context, const Mbti());
-                        },
-                        child: const Column(
-                          children: <Widget>[
-                            Icon(Icons.quiz_rounded, color: Colors.blue),
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 2.0),
-                            ),
-                            Text(
-                              'Coba Quiz',
-                              style: TextStyle(
-                                  color: Colors.blue, fontFamily: 'Poppins'),
-                            ),
-                          ],
+                      SizedBox(
+                        height: 52.0,
+                        width: 90.0,
+                        child: TextButton(
+                          style: flatButtonStyle,
+                          onPressed: () {
+                            //
+                            nextPage(context, const Mbti());
+                          },
+                          child: const Column(
+                            children: <Widget>[
+                              Icon(Icons.quiz_rounded, color: Colors.blue),
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 2.0),
+                              ),
+                              Text(
+                                'Coba Quiz',
+                                style: TextStyle(
+                                    color: Colors.blue, fontFamily: 'Poppins'),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

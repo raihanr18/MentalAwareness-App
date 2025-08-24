@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+
 class AudioManager {
   static final AudioPlayer _audioPlayer = AudioPlayer();
   static String? _currentAudioFile;
@@ -12,14 +13,17 @@ class AudioManager {
       }
       await _audioPlayer.play(AssetSource(audioFile));
       _currentAudioFile = audioFile;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Memainkan $audioFile')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Memainkan $audioFile')),
+        );
+      }
       _isPlayingMap[_currentAudioFile!] = true;
     } catch (e) {
-      print('Error playing audio: $e');
+      // print('Error playing audio: $e'); // Commented out for production
     }
   }
+
   static Future<void> stopAudio() async {
     try {
       await _audioPlayer.stop();
@@ -28,20 +32,23 @@ class AudioManager {
       }
       _currentAudioFile = null;
     } catch (e) {
-      print('Error stopping audio: $e');
+      // print('Error stopping audio: $e'); // Commented out for production
     }
   }
+
   static bool isPlaying(String audioFile) {
     return _isPlayingMap[audioFile] ?? false;
   }
+
   static Future<void> seekTo(Duration position) async {
     try {
       await _audioPlayer.seek(position);
     } catch (e) {
-      print('Error seeking audio: $e');
+      // print('Error seeking audio: $e'); // Commented out for production
     }
   }
 }
+
 class TrackPage extends StatelessWidget {
   final String title;
   final String audioFile;
@@ -67,6 +74,7 @@ class TrackPage extends StatelessWidget {
     );
   }
 }
+
 class TrackPageContent extends StatefulWidget {
   final String title;
   final String audioFile;
@@ -78,45 +86,60 @@ class TrackPageContent extends StatefulWidget {
     required this.icon,
   });
   @override
-  _TrackPageContentState createState() => _TrackPageContentState();
+  State<TrackPageContent> createState() => _TrackPageContentState();
 }
+
 class _TrackPageContentState extends State<TrackPageContent>
     with SingleTickerProviderStateMixin {
   late bool isPlaying;
-  Duration _duration = Duration();
-  Duration _position = Duration();
+  Duration _duration = const Duration();
+  Duration _position = const Duration();
   @override
   void initState() {
     super.initState();
     isPlaying = AudioManager.isPlaying(widget.audioFile);
-    // Mendengarkan perubahan durasi audio
+
+    // Mendengarkan perubahan durasi audio dengan null check
     AudioManager._audioPlayer.onDurationChanged.listen((Duration duration) {
-      setState(() {
-        _duration = duration;
-      });
+      if (mounted) {
+        setState(() {
+          _duration = duration;
+        });
+      }
     });
-    // Mendengarkan perubahan posisi audio
+
+    // Mendengarkan perubahan posisi audio dengan null check
     AudioManager._audioPlayer.onPositionChanged.listen((Duration position) {
-      setState(() {
-        _position = position;
-      });
+      if (mounted) {
+        setState(() {
+          _position = position;
+        });
+      }
     });
   }
+
   @override
   void dispose() {
-    AudioManager.stopAudio();
+    // Clean up audio when disposing
+    if (isPlaying) {
+      AudioManager.stopAudio();
+    }
     super.dispose();
   }
+
   Future<void> _toggleAudio() async {
     if (isPlaying) {
       await AudioManager.stopAudio();
     } else {
       await AudioManager.playAudio(widget.audioFile, context);
     }
-    setState(() {
-      isPlaying = !isPlaying;
-    });
+    if (mounted) {
+      setState(() {
+        isPlaying = !isPlaying;
+      });
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -130,7 +153,7 @@ class _TrackPageContentState extends State<TrackPageContent>
             shape: BoxShape.rectangle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 spreadRadius: 2,
                 blurRadius: 5,
                 offset: const Offset(0, 3),
@@ -165,11 +188,11 @@ class _TrackPageContentState extends State<TrackPageContent>
           children: [
             Text(
               '${_position.inMinutes}:${(_position.inSeconds % 60).toString().padLeft(2, '0')}',
-              style: TextStyle(fontSize: 18.0, color: Colors.blue),
+              style: const TextStyle(fontSize: 18.0, color: Colors.blue),
             ),
             Text(
               '${_duration.inMinutes}:${(_duration.inSeconds % 60).toString().padLeft(2, '0')}',
-              style: TextStyle(fontSize: 18.0, color: Colors.blue),
+              style: const TextStyle(fontSize: 18.0, color: Colors.blue),
             ),
           ],
         ),
@@ -211,8 +234,9 @@ class _TrackPageContentState extends State<TrackPageContent>
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: isPlaying
-                    ? Icon(Icons.stop, size: 40, color: Colors.blue)
-                    : Icon(Icons.play_arrow, size: 40, color: Colors.blue),
+                    ? const Icon(Icons.stop, size: 40, color: Colors.blue)
+                    : const Icon(Icons.play_arrow,
+                        size: 40, color: Colors.blue),
               ),
             ),
           ],

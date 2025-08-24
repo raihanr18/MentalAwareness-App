@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class KelolaAdmin extends StatefulWidget {
   const KelolaAdmin({super.key});
@@ -12,15 +12,13 @@ class KelolaAdmin extends StatefulWidget {
 
 class _KelolaAdminState extends State<KelolaAdmin> {
   final TextEditingController _emailController = TextEditingController();
-  final RoundedLoadingButtonController _buttonController =
-      RoundedLoadingButtonController();
+  bool isLoading = false;
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
       return 'Email tidak boleh kosong';
     }
-    final emailRegExp =
-        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final emailRegExp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegExp.hasMatch(value)) {
       return 'Email tidak valid';
     }
@@ -36,7 +34,7 @@ class _KelolaAdminState extends State<KelolaAdmin> {
           style: TextStyle(
             fontFamily: 'Poppins',
           ),
-          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -50,20 +48,35 @@ class _KelolaAdminState extends State<KelolaAdmin> {
               validator: _validateEmail, // Add validator here
             ),
             const SizedBox(height: 20),
-            RoundedLoadingButton(
-              onPressed: () {
-                _tambahAdmin(context);
-                _buttonController.reset();
-                _buttonController.success();
-              },
-              color: Colors.blue.shade100,
-              borderRadius: 10,
-              controller: _buttonController,
-              successColor: Colors.green,
-              valueColor: Colors.white,
-              child: const Text(
-                'Tambah Admin',
-                style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: isLoading
+                    ? null
+                    : () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        _tambahAdmin(context);
+                      },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue.shade100,
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: isLoading
+                    ? LoadingAnimationWidget.staggeredDotsWave(
+                        color: Colors.black,
+                        size: 20,
+                      )
+                    : const Text(
+                        'Tambah Admin',
+                        style: TextStyle(
+                            color: Colors.black, fontFamily: 'Poppins'),
+                      ),
               ),
             ),
           ],
@@ -79,11 +92,15 @@ class _KelolaAdminState extends State<KelolaAdmin> {
     if (_validateEmail(_emailController.text) == null) {
       try {
         await loginController.tambahAdmin(_emailController.text);
-        _showSuccessDialog(context, 'Admin berhasil ditambahkan');
+        if (!mounted) return;
+        _showSuccessDialog(this.context, 'Admin berhasil ditambahkan');
       } catch (e) {
-        _showErrorDialog(context, e.toString());
+        if (!mounted) return;
+        _showErrorDialog(this.context, e.toString());
       } finally {
-        _buttonController.reset();
+        setState(() {
+          isLoading = false;
+        });
       }
     } else {
       _showErrorDialog(context, 'Email tidak valid');

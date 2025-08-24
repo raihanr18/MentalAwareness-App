@@ -6,15 +6,20 @@ import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/firebase_options.dart';
 import 'package:healman_mental_awareness/pages/splash_screen.dart';
 
+// Utils
+import 'package:healman_mental_awareness/utils/log_filter.dart';
+
 // Package
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:healman_mental_awareness/pages/view_article.dart';
 import 'package:provider/provider.dart';
 // import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Setup log filter to reduce spam warnings
+  LogFilter.setupLogFilter();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -37,10 +42,10 @@ class MyApp extends StatelessWidget {
           create: ((context) => InternetController()),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Healman",
-        home: SplashScreen(),
+        home: const SplashScreen(),
         // home: ResultPage(),
         // home: QuizMbti(),
       ),

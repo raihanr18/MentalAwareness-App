@@ -15,7 +15,7 @@ class TextFieldWidget extends StatefulWidget {
   });
 
   @override
-  _TextFieldWidgetState createState() => _TextFieldWidgetState();
+  State<TextFieldWidget> createState() => _TextFieldWidgetState();
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
@@ -37,27 +37,30 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
 
   @override
   Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        widget.label,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, fontFamily: 'Poppins'),
-      ),
-      const SizedBox(height: 8),
-      TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(
-              color: Colors.blue, // Atur warna border menjadi biru
-              width: 2.0, // Atur lebar border sesuai keinginan Anda
-            ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.label,
+            style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                fontFamily: 'Poppins'),
           ),
-        ),
-        maxLines: widget.maxLines,
-        onChanged: widget.onChanged,
-      ),
-    ],
-  );
+          const SizedBox(height: 8),
+          TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(
+                  color: Colors.blue, // Atur warna border menjadi biru
+                  width: 2.0, // Atur lebar border sesuai keinginan Anda
+                ),
+              ),
+            ),
+            maxLines: widget.maxLines,
+            onChanged: widget.onChanged,
+          ),
+        ],
+      );
 }
