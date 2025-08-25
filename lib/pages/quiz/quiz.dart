@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:healman_mental_awareness/pages/quiz/mbti.dart';
+import 'package:healman_mental_awareness/pages/quiz/mbti_intro_page.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 
 class QuizPage extends StatefulWidget {
@@ -68,7 +68,7 @@ class _QuizPageState extends State<QuizPage> {
                           style: flatButtonStyle,
                           onPressed: () {
                             //
-                            nextPage(context, const Mbti());
+                            nextPage(context, const MbtiIntroPage());
                           },
                           child: const Column(
                             children: <Widget>[

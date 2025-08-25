@@ -1,6 +1,8 @@
 // Maintain Page
 import 'package:healman_mental_awareness/controller/internet_controller.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
+import 'package:healman_mental_awareness/controller/mood_controller.dart';
+import 'package:healman_mental_awareness/controller/mental_health_controller.dart';
 
 // Pages
 import 'package:healman_mental_awareness/firebase_options.dart';
@@ -41,11 +43,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: ((context) => InternetController()),
         ),
+        ChangeNotifierProvider(
+          create: ((context) => MoodController()),
+        ),
+        ChangeNotifierProvider(
+          create: ((context) => MentalHealthController()),
+        ),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: "Healman",
-        home: const SplashScreen(),
+        title: "Healman Mental Health",
+        home: SplashScreen(),
         // home: ResultPage(),
         // home: QuizMbti(),
       ),

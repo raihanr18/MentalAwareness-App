@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healman_mental_awareness/components/profile_widget.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/login_screen.dart';
+import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -51,26 +52,31 @@ class ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
                 child: Row(
                   children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
                     const Text(
                       'Profile',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.person,
-                        color: Colors.white,
-                        size: 20,
                       ),
                     ),
                   ],
@@ -128,10 +134,8 @@ class ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _buildInfoRow(
-                                'Nama',
-                                isTestUser
-                                    ? 'Pengguna Uji'
-                                    : lc.name ?? 'Tidak Diketahui',
+                                'Name',
+                                isTestUser ? 'Test User' : lc.name ?? 'Unknown',
                                 Icons.person_outline,
                               ),
                               const SizedBox(height: 16),
@@ -139,13 +143,13 @@ class ProfilePageState extends State<ProfilePage> {
                                 'Email',
                                 isTestUser
                                     ? 'test@healman.com'
-                                    : lc.email ?? 'Tidak Diketahui',
+                                    : lc.email ?? 'Unknown',
                                 Icons.email_outlined,
                               ),
                               const SizedBox(height: 16),
                               _buildInfoRow(
-                                'Jenis Akun',
-                                isTestUser ? 'Akun Uji' : 'Akun Google',
+                                'Account Type',
+                                isTestUser ? 'Test Account' : 'Google Account',
                                 Icons.account_circle_outlined,
                               ),
                             ],
@@ -311,15 +315,10 @@ class ProfilePageState extends State<ProfilePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                Navigator.of(context).pop(); // Close dialog first
+                Navigator.of(context).pop();
                 await lc.userLogout();
                 if (context.mounted) {
-                  // Use pushAndRemoveUntil to clear navigation stack
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => const LoginScreen()),
-                    (route) => false,
-                  );
+                  nextPageReplace(context, const LoginScreen());
                 }
               },
               style: ElevatedButton.styleFrom(

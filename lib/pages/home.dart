@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:healman_mental_awareness/controller/login_controller.dart';
-import 'package:healman_mental_awareness/pages/admin/admin.dart';
-import 'package:healman_mental_awareness/pages/login_screen.dart';
-import 'package:healman_mental_awareness/pages/meditasi/meditasi.dart';
-import 'package:healman_mental_awareness/pages/news_portal.dart';
-import 'package:healman_mental_awareness/pages/quiz/quiz.dart';
-import 'package:healman_mental_awareness/pages/tentang_kami.dart';
-import 'package:healman_mental_awareness/pages/user/profile.dart';
-import 'package:healman_mental_awareness/utils/next_page.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:healman_mental_awareness/controller/login_controller.dart';
+import 'package:healman_mental_awareness/pages/meditation/enhanced_meditation.dart';
+import 'package:healman_mental_awareness/pages/news_portal.dart';
+import 'package:healman_mental_awareness/pages/view_article.dart';
+import 'package:healman_mental_awareness/pages/quiz/improved_quiz_mbti.dart';
+import 'package:healman_mental_awareness/pages/user/profile.dart';
+import 'package:healman_mental_awareness/pages/mood/mood_tracker.dart';
+import 'package:healman_mental_awareness/pages/assessment/mental_health_assessment.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,493 +18,644 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  late AnimationController _fadeController;
-  late Animation<double> _fadeAnimation;
-
-  Future getData() async {
-    final sp = context.read<LoginController>();
-    sp.getDataSharedPreferences();
-  }
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    getData();
-
-    _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _fadeController,
-      curve: Curves.easeOut,
-    ));
-
-    _fadeController.forward();
+    _loadData();
   }
 
-  @override
-  void dispose() {
-    _fadeController.dispose();
-    super.dispose();
+  void _loadData() async {
+    final loginController = context.read<LoginController>();
+    loginController.getDataSharedPreferences();
   }
 
-  int _selectedIndex = 0;
+  final List<Widget> _pages = [
+    const HomeContent(),
+    const EnhancedMeditationPage(),
+    const MoodTrackerPage(),
+    const MentalHealthAssessmentPage(),
+    const ProfilePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    final sp = context.watch<LoginController>();
-
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: SafeArea(
-        child: Column(
-          children: [
-            // Modern App Bar
-            FadeTransition(
-              opacity: _fadeAnimation,
-              child: Container(
-                padding: const EdgeInsets.fromLTRB(24, 20, 24, 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    // Logo dan Brand
-                    Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.psychology,
-                        color: Colors.white,
-                        size: 24,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Healman',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.grey[800],
-                          ),
-                        ),
-                        Text(
-                          'Mental Wellness',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    // Profile Section
-                    GestureDetector(
-                      onTap: () => nextPage(context, const ProfilePage()),
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Colors.grey[300]!,
-                            width: 2,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: sp.imageUrl != null
-                              ? Image.asset(
-                                  sp.imageUrl!,
-                                  width: 40,
-                                  height: 40,
-                                  fit: BoxFit.cover,
-                                )
-                              : Container(
-                                  width: 40,
-                                  height: 40,
-                                  color: Colors.grey[300],
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Colors.grey[600],
-                                    size: 20,
-                                  ),
-                                ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Welcome Section
-            FadeTransition(
-              opacity: _fadeAnimation,
-              child: Container(
-                width: double.infinity,
-                margin: const EdgeInsets.all(24),
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF667eea).withOpacity(0.3),
-                      blurRadius: 20,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      sp.role == 'ADMIN'
-                          ? 'Hello, Admin ${sp.name ?? "User"}'
-                          : 'Hello, ${sp.name ?? "User"}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'How are you feeling today? Let\'s take care of your mental health together.',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white.withOpacity(0.9),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            // Main Content dengan IndexedStack
-            Expanded(
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 20,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: IndexedStack(
-                      index: _selectedIndex,
-                      children: const [
-                        NewsPortal(),
-                        MeditasiPage(),
-                        QuizPage(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 24),
-          ],
-        ),
+        child: _pages[_selectedIndex],
       ),
-
-      // Modern Bottom Navigation
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.05),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
           ],
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildNavItem(
-                  icon: Icons.home_rounded,
-                  label: 'Home',
-                  index: 0,
-                ),
-                _buildNavItem(
-                  icon: Icons.self_improvement_rounded,
-                  label: 'Meditation',
-                  index: 1,
-                ),
-                _buildNavItem(
-                  icon: Icons.quiz_rounded,
-                  label: 'Quiz',
-                  index: 2,
-                ),
-              ],
+        child: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) => setState(() => _selectedIndex = index),
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: const Color(0xFF667eea),
+          unselectedItemColor: Colors.grey[400],
+          backgroundColor: Colors.white,
+          elevation: 0,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Beranda',
             ),
-          ),
-        ),
-      ),
-
-      // Floating Action Button untuk Profile/Menu
-      floatingActionButton: FadeTransition(
-        opacity: _fadeAnimation,
-        child: FloatingActionButton(
-          onPressed: () => _showMenuBottomSheet(context, sp),
-          backgroundColor: const Color(0xFF667eea),
-          elevation: 8,
-          child: const Icon(
-            Icons.menu_rounded,
-            color: Colors.white,
-            size: 28,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-    );
-  }
-
-  Widget _buildNavItem({
-    required IconData icon,
-    required String label,
-    required int index,
-  }) {
-    bool isSelected = _selectedIndex == index;
-
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? const Color(0xFF667eea).withOpacity(0.1)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              color: isSelected ? const Color(0xFF667eea) : Colors.grey[400],
-              size: 24,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.self_improvement),
+              label: 'Meditasi',
             ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                color: isSelected ? const Color(0xFF667eea) : Colors.grey[400],
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.mood),
+              label: 'Suasana Hati',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.psychology),
+              label: 'Penilaian',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profil',
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  void _showMenuBottomSheet(BuildContext context, LoginController sp) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(24),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.circular(2),
-              ),
-            ),
-            const SizedBox(height: 24),
+class HomeContent extends StatelessWidget {
+  const HomeContent({super.key});
 
-            // Menu Items
-            _buildMenuItem(
-              icon: Icons.person_rounded,
-              title: 'Profile',
-              onTap: () {
-                Navigator.pop(context);
-                nextPage(context, const ProfilePage());
-              },
-            ),
-            if (sp.role == 'ADMIN')
-              _buildMenuItem(
-                icon: Icons.admin_panel_settings_rounded,
-                title: 'Admin Panel',
-                onTap: () {
-                  Navigator.pop(context);
-                  nextPage(context, AdminPage());
-                },
-              ),
-            _buildMenuItem(
-              icon: Icons.info_rounded,
-              title: 'About Us',
-              onTap: () {
-                Navigator.pop(context);
-                nextPage(context, const TentangKami());
-              },
-            ),
-            _buildMenuItem(
-              icon: Icons.logout_rounded,
-              title: 'Logout',
-              onTap: () {
-                Navigator.pop(context);
-                _showLogoutDialog(context, sp);
-              },
-              isDestructive: true,
-            ),
-
-            const SizedBox(height: 24),
-          ],
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0xFF667eea), Color(0xFF764ba2)],
         ),
       ),
-    );
-  }
-
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-    bool isDestructive = false,
-  }) {
-    return ListTile(
-      leading: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: isDestructive
-              ? Colors.red.withOpacity(0.1)
-              : const Color(0xFF667eea).withOpacity(0.1),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Icon(
-          icon,
-          color: isDestructive ? Colors.red : const Color(0xFF667eea),
-          size: 20,
-        ),
-      ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-          color: isDestructive ? Colors.red : Colors.grey[800],
-        ),
-      ),
-      onTap: onTap,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-    );
-  }
-
-  void _showLogoutDialog(BuildContext context, LoginController sp) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: const Text(
-          'Logout',
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        content: const Text(
-          'Are you sure you want to logout?',
-          style: TextStyle(fontSize: 16),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              Navigator.pop(context);
-              await sp.userLogout();
-              nextPageReplace(context, const LoginScreen());
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: const Text(
-              'Logout',
-              style: TextStyle(
+      child: Column(
+        children: [
+          _buildHeader(context),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(top: 20),
+              decoration: const BoxDecoration(
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildQuickActions(context),
+                    const SizedBox(height: 24),
+                    _buildMentalHealthArticles(context),
+                    const SizedBox(height: 24),
+                    _buildAssessmentProgress(context),
+                    const SizedBox(height: 24),
+                    _buildWelcomeSection(),
+                  ],
+                ),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    final loginController = context.watch<LoginController>();
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _getGreeting(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.white70,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  (loginController.name?.isNotEmpty ?? false)
+                      ? loginController.name!
+                      : 'Pejuang Kesehatan Mental',
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withOpacity(0.2),
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+            child: ClipOval(
+              child: loginController.imageUrl != null
+                  ? Image.asset(
+                      loginController.imageUrl!,
+                      fit: BoxFit.cover,
+                    )
+                  : const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuickActions(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Aksi Cepat',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                'Meditasi',
+                'Temukan kedamaian',
+                Icons.self_improvement,
+                Colors.blue[300]!,
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EnhancedMeditationPage(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildActionCard(
+                'Lacak Suasana Hati',
+                'Catat mood harian',
+                Icons.favorite,
+                Colors.pink[300]!,
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MoodTrackerPage(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                'Penilaian',
+                'Cek kesehatan mental Anda',
+                Icons.psychology,
+                Colors.orange[300]!,
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MentalHealthAssessmentPage(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildActionCard(
+                'Kuis MBTI',
+                'Temukan kepribadian Anda',
+                Icons.quiz,
+                Colors.purple[300]!,
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ImprovedQuizMbti(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionCard(String title, String subtitle, IconData icon,
+      Color color, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: color.withOpacity(0.3)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              subtitle,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.black54,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMentalHealthArticles(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: const Text(
+                'Artikel Kesehatan Mental',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NewsPortal(),
+                ),
+              ),
+              child: const Text('Lihat Semua'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: _getMentalHealthArticles().length,
+            itemBuilder: (context, index) {
+              final article = _getMentalHealthArticles()[index];
+              return InkWell(
+                onTap: () {
+                  // Navigasi ke detail artikel dummy atau NewsPortal
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ViewArticle(
+                        article: Article(
+                          title: article['title'],
+                          imageUrl:
+                              'https://picsum.photos/400/200?random=${index + 1}',
+                          author: article['author'] ?? 'Tim Healman',
+                          postedOn: _getArticleDate(index),
+                          content: article['content'],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  width: MediaQuery.of(context).size.width *
+                      0.75, // 75% dari lebar layar
+                  margin: const EdgeInsets.only(right: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.blue.shade300,
+                              Colors.purple.shade300,
+                            ],
+                          ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            article['icon'],
+                            size: 48,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  article['title'],
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black87,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Expanded(
+                                child: Text(
+                                  article['description'],
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey[600],
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAssessmentProgress(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Progres Penilaian',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Colors.black87,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              _buildProgressItem('Tes Depresi', 0.7, Colors.blue),
+              const SizedBox(height: 16),
+              _buildProgressItem('Tes Kecemasan', 0.5, Colors.green),
+              const SizedBox(height: 16),
+              _buildProgressItem('Tes Stres', 0.3, Colors.orange),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProgressItem(String title, double progress, Color color) {
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 8),
+              LinearProgressIndicator(
+                value: progress,
+                backgroundColor: Colors.grey[200],
+                valueColor: AlwaysStoppedAnimation<Color>(color),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 16),
+        Text(
+          '${(progress * 100).toInt()}%',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: color,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildWelcomeSection() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          const Icon(
+            Icons.psychology,
+            size: 48,
+            color: Color(0xFF667eea),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Selamat datang di Mental Awareness',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+              color: Colors.black87,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Mulai perjalanan Anda menuju kesehatan mental yang lebih baik dengan berbagai tools dan fitur yang tersedia.',
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<Map<String, dynamic>> _getMentalHealthArticles() {
+    return [
+      {
+        'title': 'Cara Mengatasi Stres dan Kecemasan',
+        'description':
+            'Tips praktis untuk mengelola stres dalam kehidupan sehari-hari',
+        'icon': Icons.psychology,
+        'author': 'Dr. Sarah Mental',
+        'content':
+            'Stres dan kecemasan telah menjadi masalah umum di era digital ini. Dengan teknologi yang terus berkembang dan kehidupan yang semakin cepat, banyak orang merasa kewalahan. Artikel ini membahas berbagai strategi efektif untuk mengelola stres dan kecemasan, termasuk teknik pernapasan, meditasi, dan manajemen waktu yang baik. Teknik pernapasan dalam dapat membantu menenangkan sistem saraf dan mengurangi tingkat stres. Meditasi mindfulness juga terbukti efektif dalam mengurangi kecemasan dan meningkatkan kesejahteraan mental.',
+      },
+      {
+        'title': 'Pentingnya Tidur untuk Kesehatan Mental',
+        'description':
+            'Bagaimana kualitas tidur mempengaruhi kesehatan mental Anda',
+        'icon': Icons.bedtime,
+        'author': 'Prof. Ahmad Jiwa',
+        'content':
+            'Tidur yang berkualitas memiliki peran krusial dalam menjaga kesehatan mental. Kurang tidur dapat mempengaruhi mood, konsentrasi, dan kemampuan berpikir jernih. Artikel ini menjelaskan hubungan antara tidur dan kesehatan mental, serta memberikan tips untuk meningkatkan kualitas tidur Anda. Orang dewasa membutuhkan 7-9 jam tidur per malam untuk kesehatan optimal. Rutinitas tidur yang konsisten, lingkungan tidur yang nyaman, dan menghindari kafein sebelum tidur dapat membantu meningkatkan kualitas tidur.',
+      },
+      {
+        'title': 'Membangun Mindfulness dalam Kehidupan',
+        'description': 'Praktik mindfulness untuk meningkatkan kesadaran diri',
+        'icon': Icons.self_improvement,
+        'author': 'Maya Wellness',
+        'content':
+            'Mindfulness atau kesadaran penuh adalah praktik yang dapat membantu kita hidup lebih tenang dan bahagia. Dengan berlatih mindfulness, kita dapat mengurangi stres, meningkatkan fokus, dan memiliki hubungan yang lebih baik dengan diri sendiri dan orang lain. Pelajari cara mudah untuk memulai praktik mindfulness dalam rutinitas harian Anda. Mulai dengan latihan pernapasan sederhana selama 5 menit setiap hari, kemudian tingkatkan secara bertahap.',
+      },
+      {
+        'title': 'Mengenali Tanda-tanda Depresi',
+        'description': 'Memahami gejala dan cara mencari bantuan profesional',
+        'icon': Icons.favorite,
+        'author': 'Dr. Rina Psikolog',
+        'content':
+            'Depresi adalah kondisi mental yang serius namun dapat diobati. Penting untuk mengenali tanda-tanda awal depresi agar dapat segera mencari bantuan. Artikel ini membahas gejala-gejala depresi, faktor risiko, dan berbagai pilihan pengobatan yang tersedia, termasuk terapi dan dukungan sosial. Gejala depresi meliputi perasaan sedih yang berkepanjangan, kehilangan minat pada aktivitas, perubahan nafsu makan, dan kesulitan tidur.',
+      },
+    ];
+  }
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Selamat pagi,';
+    if (hour < 17) return 'Selamat siang,';
+    return 'Selamat malam,';
+  }
+
+  String _getArticleDate(int index) {
+    final dates = [
+      '2024-01-15T08:30:00Z',
+      '2024-01-10T14:20:00Z',
+      '2024-01-05T09:15:00Z',
+      '2023-12-28T16:45:00Z',
+    ];
+
+    if (index < dates.length) {
+      return dates[index];
+    }
+
+    // Fallback untuk artikel tambahan
+    final now = DateTime.now();
+    final daysAgo = (index + 1) * 3;
+    return now.subtract(Duration(days: daysAgo)).toIso8601String();
   }
 }

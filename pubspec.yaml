@@ -26,6 +26,7 @@ dependencies:
   http: ^1.2.0
   connectivity_plus: ^5.0.2
   url_launcher: ^6.0.0
+  translator: 1.0.3+1
   
   # Media & Content
   video_player: ^2.10.0

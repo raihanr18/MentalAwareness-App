@@ -154,11 +154,11 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 20,
                             offset: const Offset(0, 10),
                           ),
@@ -203,7 +203,7 @@ class _SplashScreenState extends State<SplashScreen>
                 FadeTransition(
                   opacity: _textAnimation,
                   child: const Text(
-                    'Mental Awareness for Better Life',
+                    'Kesadaran Mental untuk Hidup yang Lebih Baik',
                     style: TextStyle(
                       fontSize: 16,
                       color: Colors.white,
@@ -224,16 +224,16 @@ class _SplashScreenState extends State<SplashScreen>
                     padding: const EdgeInsets.all(20),
                     margin: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
+                      color: Colors.white.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(15),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
                     child: Column(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.psychology_outlined,
                           color: Colors.white,
                           size: 24,

@@ -31,18 +31,31 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
-    final image = NetworkImage(imagePath);
+    final isAsset = imagePath.startsWith('assets/');
 
     return ClipOval(
       child: Material(
         color: Colors.transparent,
-        child: Ink.image(
-          image: image,
-          fit: BoxFit.cover,
-          width: 150,
-          height: 150,
-          child: InkWell(onTap: onClicked),
-        ),
+        child: isAsset
+            ? Ink(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: AssetImage(imagePath),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: InkWell(onTap: onClicked),
+              )
+            : Ink.image(
+                image: NetworkImage(imagePath),
+                fit: BoxFit.cover,
+                width: 150,
+                height: 150,
+                child: InkWell(onTap: onClicked),
+              ),
       ),
     );
   }

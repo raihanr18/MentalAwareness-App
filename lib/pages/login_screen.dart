@@ -76,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final horizontalPadding = size.width < 350 ? 16.0 : 24.0;
 
     return Scaffold(
       key: _scaffoldKey,
@@ -95,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen>
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -163,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen>
                     child: SlideTransition(
                       position: _slideAnimation,
                       child: Container(
-                        padding: const EdgeInsets.all(32),
+                        padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
                           color: Colors.white.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(24),
@@ -205,18 +206,22 @@ class _LoginScreenState extends State<LoginScreen>
                                     : Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Image.asset(
                                             'assets/icon/google.png',
-                                            height: 24,
-                                            width: 24,
+                                            height: 20,
+                                            width: 20,
                                           ),
-                                          const SizedBox(width: 12),
-                                          const Text(
-                                            'Continue with Google',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
+                                          const SizedBox(width: 8),
+                                          const Flexible(
+                                            child: Text(
+                                              'Continue with Google',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                         ],
@@ -285,10 +290,11 @@ class _LoginScreenState extends State<LoginScreen>
                                         child: const Text(
                                           'Continue as Test User',
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 15,
                                             fontWeight: FontWeight.w500,
                                             color: Colors.white,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                     ),
@@ -344,32 +350,38 @@ class _LoginScreenState extends State<LoginScreen>
         isGoogleLoading = false;
       });
     } else {
-      await sp.loginWithGoogle().then((value) {
-        if (sp.hasErrors == true) {
-          openSnackbar(sp.errorCode ?? "Google login error", Colors.red);
+      await sp.loginWithGoogle();
+
+      if (sp.hasErrors == true) {
+        openSnackbar(sp.errorCode ?? "Google login error", Colors.red);
+        setState(() {
+          isGoogleLoading = false;
+        });
+      } else {
+        final userExists = await sp.checkUser();
+
+        if (userExists == true) {
+          await sp.getUserDataFirestore(sp.uid);
+          await sp.saveDataSharedPref();
+          await sp.setLogin();
+
           setState(() {
             isGoogleLoading = false;
           });
+
+          if (context.mounted) {
+            nextPageReplace(context, HomePage());
+          }
         } else {
-          sp.checkUser().then((value) {
-            if (value == true) {
-              sp.getUserDataFirestore(sp.uid).then((value) => sp
-                  .saveDataSharedPref()
-                  .then((value) => sp.setLogin().then((value) {
-                        setState(() {
-                          isGoogleLoading = false;
-                        });
-                        nextPageReplace(context, const HomePage());
-                      })));
-            } else {
-              setState(() {
-                isGoogleLoading = false;
-              });
-              nextPageReplace(context, const HomePage());
-            }
+          setState(() {
+            isGoogleLoading = false;
           });
+
+          if (context.mounted) {
+            nextPageReplace(context, HomePage());
+          }
         }
-      });
+      }
     }
   }
 
@@ -379,7 +391,7 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       await sp.loginAsTestUser();
       if (mounted) {
-        nextPageReplace(context, const HomePage());
+        nextPageReplace(context, HomePage());
       }
     } catch (e) {
       openSnackbar("Test login error: $e", Colors.red);

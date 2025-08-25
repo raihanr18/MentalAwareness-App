@@ -134,7 +134,7 @@ class _SplashScreenState extends State<SplashScreen>
   void navigateToNextPage() {
     final sp = context.read<LoginController>();
     if (sp.isSignedIn) {
-      nextPageReplace(context, const HomePage());
+      nextPageReplace(context, HomePage());
     } else {
       nextPageReplace(context, const LoginScreen());
     }
@@ -234,7 +234,7 @@ class _SplashScreenState extends State<SplashScreen>
                           letterSpacing: 1.2,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withOpacity(0.3),
+                              color: Colors.black.withValues(alpha: 0.3),
                               offset: const Offset(2, 2),
                               blurRadius: 4,
                             ),
@@ -247,7 +247,7 @@ class _SplashScreenState extends State<SplashScreen>
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w300,
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           letterSpacing: 0.8,
                         ),
                       ),
@@ -264,10 +264,10 @@ class _SplashScreenState extends State<SplashScreen>
                     padding: const EdgeInsets.all(24),
                     margin: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
+                      color: Colors.white.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -294,7 +294,7 @@ class _SplashScreenState extends State<SplashScreen>
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(2),
                     ),
                     child: AnimatedBuilder(
