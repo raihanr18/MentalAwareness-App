@@ -127,7 +127,7 @@ class ResultPageState extends State<ResultPage> {
                     child: Row(
                       children: [
                         Image.asset(
-                          'assets/icon/logo_polos.png',
+                          'assets/icon/logo_healmann-nobg.png',
                           width: 50,
                         ),
                         const SizedBox(width: 20),
@@ -193,15 +193,15 @@ class ResultPageState extends State<ResultPage> {
                   Positioned(
                     bottom: 300,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0), 
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       height: 200,
-                      width: 380, 
+                      width: 380,
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
                           child: RichText(
                             textAlign: TextAlign.justify,
-                            overflow: TextOverflow.visible, 
+                            overflow: TextOverflow.visible,
                             text: TextSpan(
                               style: const TextStyle(
                                 color: Colors.black,

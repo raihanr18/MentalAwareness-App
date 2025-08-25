@@ -5,6 +5,7 @@ import 'dart:math' as math;
 import 'package:translator/translator.dart';
 
 import 'view_article.dart';
+import '../utils/color_palette.dart';
 
 class NewsPortal extends StatefulWidget {
   const NewsPortal({super.key});
@@ -13,21 +14,64 @@ class NewsPortal extends StatefulWidget {
   State<NewsPortal> createState() => _NewsPortalState();
 }
 
-class _NewsPortalState extends State<NewsPortal> {
+class _NewsPortalState extends State<NewsPortal> with TickerProviderStateMixin {
   List<Article> _articles = [];
   bool _isLoading = true;
+  int _currentStep = 0; // Track current loading step
+  late AnimationController _checkAnimationController1;
+  late AnimationController _checkAnimationController2;
+  late Animation<double> _checkAnimation1;
+  late Animation<double> _checkAnimation2;
 
   @override
   void initState() {
     super.initState();
+    _checkAnimationController1 = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _checkAnimationController2 = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _checkAnimation1 = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _checkAnimationController1,
+      curve: Curves.elasticOut,
+    ));
+    _checkAnimation2 = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _checkAnimationController2,
+      curve: Curves.elasticOut,
+    ));
     fetchNews();
+  }
+
+  @override
+  void dispose() {
+    _checkAnimationController1.dispose();
+    _checkAnimationController2.dispose();
+    super.dispose();
   }
 
   void fetchNews() async {
     // Set loading state
     setState(() {
       _isLoading = true;
+      _currentStep = 0;
     });
+
+    // Step 1: Mencari artikel terbaru
+    setState(() {
+      _currentStep = 1;
+    });
+
+    await Future.delayed(
+        const Duration(milliseconds: 800)); // Simulate search delay
 
     try {
       const apiKey = '9962a36ac84d4b498e95bb0959a34c84';
@@ -47,6 +91,15 @@ class _NewsPortalState extends State<NewsPortal> {
             if (data != null && data.containsKey('articles')) {
               List<dynamic> articlesData = data['articles'];
 
+              // Step 2: Mengunduh konten
+              if (_currentStep == 1) {
+                setState(() {
+                  _currentStep = 2;
+                });
+                await Future.delayed(const Duration(
+                    milliseconds: 600)); // Simulate download delay
+              }
+
               // Process articles and translate them
               for (var articleData in articlesData) {
                 // Ambil konten yang lebih lengkap dari description jika content terpotong
@@ -62,21 +115,21 @@ class _NewsPortalState extends State<NewsPortal> {
                     content = description;
 
                     // Tambahkan konten dummy yang relevan untuk melengkapi
-                    content += '\n\n' +
-                        _generateAdditionalContent(articleData['title'] ?? '');
+                    content +=
+                        '\n\n${_generateAdditionalContent(articleData['title'] ?? '')}';
                   } else {
                     content = rawContent
                         .split('[+')[0]; // Ambil bagian sebelum [+xxx chars]
-                    content += '\n\n' +
-                        _generateAdditionalContent(articleData['title'] ?? '');
+                    content +=
+                        '\n\n${_generateAdditionalContent(articleData['title'] ?? '')}';
                   }
                 } else {
                   content = rawContent.isNotEmpty ? rawContent : description;
 
                   // Jika masih pendek, tambahkan konten
                   if (content.length < 200) {
-                    content += '\n\n' +
-                        _generateAdditionalContent(articleData['title'] ?? '');
+                    content +=
+                        '\n\n${_generateAdditionalContent(articleData['title'] ?? '')}';
                   }
                 }
 
@@ -110,7 +163,7 @@ class _NewsPortalState extends State<NewsPortal> {
                       translatedDescription.substring(
                           0, math.min(50, translatedDescription.length)))) {
                     finalContent =
-                        translatedDescription + '\n\n' + translatedContent;
+                        '$translatedDescription\n\n$translatedContent';
                   } else {
                     finalContent = translatedContent;
                   }
@@ -251,34 +304,108 @@ class _NewsPortalState extends State<NewsPortal> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: HealmanColors.ivoryWhite,
       appBar: AppBar(
         title: const Text(
           'Artikel Kesehatan Mental',
           style: TextStyle(
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: Colors.white,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: HealmanColors.serenityBlue,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black87),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: _isLoading
-          ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text(
-                    'Memuat artikel...',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
+          ? Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    HealmanColors.ivoryWhite,
+                    Colors.white,
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Logo Healman
+                    Container(
+                      width: 80,
+                      height: 80,
+                      margin: const EdgeInsets.only(bottom: 24),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: HealmanColors.textCharcoal
+                                .withValues(alpha: 0.1),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          'assets/icon/logo_healmann-nobg.png',
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    // Loading Indicator
+                    const SizedBox(
+                      width: 40,
+                      height: 40,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            HealmanColors.growthGreen),
+                        strokeWidth: 3.0,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    // Loading Text
+                    const Text(
+                      'Memuat Artikel...',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: HealmanColors.textCharcoal,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Mengambil artikel kesehatan mental terbaru untuk Anda',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color:
+                            HealmanColors.textCharcoal.withValues(alpha: 0.7),
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    // Loading Steps
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 40),
+                      child: Column(
+                        children: [
+                          _buildLoadingStep(1, '🔍', 'Mencari artikel terbaru',
+                              _currentStep >= 1),
+                          const SizedBox(height: 16),
+                          _buildLoadingStep(
+                              2, '🌐', 'Mengunduh konten', _currentStep >= 2),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             )
           : _articles.isEmpty
@@ -311,9 +438,12 @@ class _NewsPortalState extends State<NewsPortal> {
                       final item = _articles[index];
                       return Card(
                         margin: const EdgeInsets.only(bottom: 16),
-                        elevation: 2,
+                        elevation: 4,
+                        color: Colors.white,
+                        shadowColor:
+                            HealmanColors.textCharcoal.withValues(alpha: 0.1),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                         child: InkWell(
                           onTap: () {
@@ -325,15 +455,15 @@ class _NewsPortalState extends State<NewsPortal> {
                               ),
                             );
                           },
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Gambar artikel
                               ClipRRect(
                                 borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
+                                  topLeft: Radius.circular(16),
+                                  topRight: Radius.circular(16),
                                 ),
                                 child: Container(
                                   height: 160,
@@ -364,9 +494,11 @@ class _NewsPortalState extends State<NewsPortal> {
                                       if (loadingProgress == null) return child;
                                       return Container(
                                         height: 160,
-                                        color: Colors.grey[200],
+                                        color: HealmanColors.softGray,
                                         child: const Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(
+                                            color: HealmanColors.growthGreen,
+                                          ),
                                         ),
                                       );
                                     },
@@ -375,7 +507,7 @@ class _NewsPortalState extends State<NewsPortal> {
                               ),
                               // Konten artikel
                               Padding(
-                                padding: const EdgeInsets.all(12),
+                                padding: const EdgeInsets.all(16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -384,29 +516,31 @@ class _NewsPortalState extends State<NewsPortal> {
                                       style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black87,
-                                      ),
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      item.content,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey[600],
+                                        color: HealmanColors.textCharcoal,
                                         height: 1.3,
                                       ),
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     const SizedBox(height: 8),
+                                    Text(
+                                      item.content,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: HealmanColors.textCharcoal
+                                            .withValues(alpha: 0.7),
+                                        height: 1.4,
+                                      ),
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 12),
                                     Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.person,
                                           size: 16,
-                                          color: Colors.grey[500],
+                                          color: HealmanColors.serenityBlue,
                                         ),
                                         const SizedBox(width: 4),
                                         Expanded(
@@ -414,7 +548,9 @@ class _NewsPortalState extends State<NewsPortal> {
                                             "${item.author} • ${_formatDate(item.postedOn)}",
                                             style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.grey[500],
+                                              color: HealmanColors.textCharcoal
+                                                  .withValues(alpha: 0.6),
+                                              fontWeight: FontWeight.w500,
                                             ),
                                             overflow: TextOverflow.ellipsis,
                                           ),
@@ -844,7 +980,7 @@ class _NewsPortalState extends State<NewsPortal> {
     // Apply translations with word boundaries for more accurate translation
     translations.forEach((english, indonesian) {
       // Use word boundaries to avoid partial word replacements
-      RegExp regex = RegExp('\\b' + RegExp.escape(english) + '\\b');
+      RegExp regex = RegExp('\\b${RegExp.escape(english)}\\b');
       translatedText = translatedText.replaceAll(regex, indonesian);
     });
 
@@ -1019,6 +1155,103 @@ Jika membutuhkan bantuan, tersedia berbagai layanan seperti konselor, psikolog, 
     } catch (e) {
       return dateString.split('T')[0];
     }
+  }
+
+  Widget _buildLoadingStep(
+      int stepNumber, String emoji, String text, bool isCompleted) {
+    // Trigger animation for completed steps
+    if (isCompleted) {
+      if (stepNumber == 1) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) _checkAnimationController1.forward();
+        });
+      } else if (stepNumber == 2) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) _checkAnimationController2.forward();
+        });
+      }
+    }
+
+    // Choose the appropriate animation
+    Animation<double> animation =
+        stepNumber == 1 ? _checkAnimation1 : _checkAnimation2;
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+      child: Row(
+        children: [
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: isCompleted
+                  ? HealmanColors.growthGreen.withValues(alpha: 0.15)
+                  : HealmanColors.softGray.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: isCompleted
+                    ? HealmanColors.growthGreen
+                    : HealmanColors.softGray,
+                width: 2,
+              ),
+              boxShadow: isCompleted
+                  ? [
+                      BoxShadow(
+                        color: HealmanColors.growthGreen.withValues(alpha: 0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Center(
+              child: isCompleted
+                  ? AnimatedBuilder(
+                      animation: animation,
+                      builder: (context, child) {
+                        return Transform.scale(
+                          scale: animation.value,
+                          child: const Icon(
+                            Icons.check_rounded,
+                            size: 18,
+                            color: HealmanColors.growthGreen,
+                          ),
+                        );
+                      },
+                    )
+                  : AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      child: const SizedBox(
+                        width: 14,
+                        height: 14,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              HealmanColors.serenityBlue),
+                        ),
+                      ),
+                    ),
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 300),
+              style: TextStyle(
+                fontSize: 15,
+                color: isCompleted
+                    ? HealmanColors.textCharcoal
+                    : HealmanColors.textCharcoal.withValues(alpha: 0.6),
+                fontWeight: isCompleted ? FontWeight.w600 : FontWeight.w500,
+                height: 1.3,
+              ),
+              child: Text(text),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 

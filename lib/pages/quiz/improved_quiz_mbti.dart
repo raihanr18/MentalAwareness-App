@@ -157,9 +157,9 @@ class _ImprovedQuizMbtiState extends State<ImprovedQuizMbti>
                 icon: const Icon(Icons.arrow_back, color: Colors.white),
               ),
               Expanded(
-                child: Text(
+                child: const Text(
                   'Tes Kepribadian MBTI',
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -177,7 +177,7 @@ class _ImprovedQuizMbtiState extends State<ImprovedQuizMbti>
           Container(
             height: 10,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
               borderRadius: BorderRadius.circular(5),
             ),
             child: LayoutBuilder(
@@ -196,7 +196,7 @@ class _ImprovedQuizMbtiState extends State<ImprovedQuizMbti>
                       borderRadius: BorderRadius.circular(5),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.white.withOpacity(0.5),
+                          color: Colors.white.withValues(alpha: 0.5),
                           blurRadius: 6,
                           offset: const Offset(0, 2),
                         ),
@@ -309,7 +309,7 @@ class _ImprovedQuizMbtiState extends State<ImprovedQuizMbti>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -415,7 +415,7 @@ class _ImprovedQuizMbtiState extends State<ImprovedQuizMbti>
           foregroundColor: Colors.white,
           disabledBackgroundColor: Colors.grey.shade300,
           elevation: selectedOption != null ? 8 : 0,
-          shadowColor: Colors.blue.withOpacity(0.3),
+          shadowColor: Colors.blue.withValues(alpha: 0.3),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),

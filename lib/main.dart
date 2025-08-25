@@ -10,6 +10,7 @@ import 'package:healman_mental_awareness/pages/splash_screen.dart';
 
 // Utils
 import 'package:healman_mental_awareness/utils/log_filter.dart';
+import 'package:healman_mental_awareness/utils/color_palette.dart';
 
 // Package
 import 'package:firebase_core/firebase_core.dart';
@@ -50,10 +51,11 @@ class MyApp extends StatelessWidget {
           create: ((context) => MentalHealthController()),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Healman Mental Health",
-        home: SplashScreen(),
+        theme: HealmanColors.lightTheme,
+        home: const SplashScreen(),
         // home: ResultPage(),
         // home: QuizMbti(),
       ),

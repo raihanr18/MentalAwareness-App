@@ -6,6 +6,7 @@ import 'package:healman_mental_awareness/controller/internet_controller.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
+import 'package:healman_mental_awareness/utils/color_palette.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -84,14 +85,7 @@ class _LoginScreenState extends State<LoginScreen>
         width: size.width,
         height: size.height,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667eea),
-              Color(0xFF764ba2),
-            ],
-          ),
+          gradient: HealmanColors.primaryGradient,
         ),
         child: SafeArea(
           child: SingleChildScrollView(
@@ -113,21 +107,26 @@ class _LoginScreenState extends State<LoginScreen>
                             width: 120,
                             height: 120,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: HealmanColors.ivoryWhite,
                               borderRadius: BorderRadius.circular(24),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.1),
+                                  color: HealmanColors.textCharcoal
+                                      .withValues(alpha: 0.1),
                                   blurRadius: 20,
                                   offset: const Offset(0, 10),
                                 ),
                               ],
                             ),
                             child: Center(
-                              child: Icon(
-                                Icons.psychology,
-                                size: 60,
-                                color: Colors.purple[600],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: Image.asset(
+                                  'assets/icon/logo_healmann-nobg.png',
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ),
@@ -370,7 +369,7 @@ class _LoginScreenState extends State<LoginScreen>
           });
 
           if (context.mounted) {
-            nextPageReplace(context, HomePage());
+            nextPageReplace(context, const HomePage());
           }
         } else {
           setState(() {
@@ -378,7 +377,7 @@ class _LoginScreenState extends State<LoginScreen>
           });
 
           if (context.mounted) {
-            nextPageReplace(context, HomePage());
+            nextPageReplace(context, const HomePage());
           }
         }
       }
@@ -391,7 +390,7 @@ class _LoginScreenState extends State<LoginScreen>
     try {
       await sp.loginAsTestUser();
       if (mounted) {
-        nextPageReplace(context, HomePage());
+        nextPageReplace(context, const HomePage());
       }
     } catch (e) {
       openSnackbar("Test login error: $e", Colors.red);

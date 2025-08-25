@@ -4,6 +4,7 @@ import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
 import 'package:healman_mental_awareness/pages/login_screen.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
+import 'package:healman_mental_awareness/utils/color_palette.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -158,14 +159,7 @@ class _SplashScreenState extends State<SplashScreen>
         width: size.width,
         height: size.height,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF667eea), // Purple-blue
-              Color(0xFF764ba2), // Deep purple
-            ],
-          ),
+          gradient: HealmanColors.primaryGradient,
         ),
         child: SafeArea(
           child: Padding(
@@ -189,26 +183,32 @@ class _SplashScreenState extends State<SplashScreen>
                             width: 140,
                             height: 140,
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: HealmanColors.ivoryWhite,
                               borderRadius: BorderRadius.circular(28),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.15),
+                                  color: HealmanColors.textCharcoal
+                                      .withValues(alpha: 0.15),
                                   blurRadius: 30,
                                   offset: const Offset(0, 15),
                                 ),
                                 BoxShadow(
-                                  color: Colors.white.withValues(alpha: 0.8),
+                                  color: HealmanColors.ivoryWhite
+                                      .withValues(alpha: 0.8),
                                   blurRadius: 20,
                                   offset: const Offset(0, -5),
                                 ),
                               ],
                             ),
                             child: Center(
-                              child: Icon(
-                                Icons.psychology,
-                                size: 70,
-                                color: Colors.purple[600],
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.asset(
+                                  'assets/icon/logo_healmann-nobg.png',
+                                  width: 90,
+                                  height: 90,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ),
@@ -234,7 +234,8 @@ class _SplashScreenState extends State<SplashScreen>
                           letterSpacing: 1.2,
                           shadows: [
                             Shadow(
-                              color: Colors.black.withValues(alpha: 0.3),
+                              color: HealmanColors.textCharcoal
+                                  .withValues(alpha: 0.3),
                               offset: const Offset(2, 2),
                               blurRadius: 4,
                             ),

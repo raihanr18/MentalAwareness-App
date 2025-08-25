@@ -165,7 +165,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ],
                       ),
                       child: Image.asset(
-                        'assets/icon/logo_polos.png',
+                        'assets/icon/logo_healmann-nobg.png',
                         width: 120,
                         height: 120,
                       ),

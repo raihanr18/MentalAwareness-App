@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healman_mental_awareness/utils/color_palette.dart';
 import 'package:healman_mental_awareness/pages/home.dart';
 import 'package:healman_mental_awareness/utils/next_page.dart';
 
@@ -18,27 +19,23 @@ class _TentangKamiState extends State<TentangKami> {
           'Healman',
           style: TextStyle(
               fontSize: 23,
-              color: Colors.indigo[800],
+              color: Colors.white,
               fontWeight: FontWeight.w700,
               fontFamily: 'Poppins-SemiBold'),
         ),
-        backgroundColor: Colors.blue[100],
+        backgroundColor: HealmanColors.serenityBlue,
         leading: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: Image.asset(
-            'assets/icon/logo_polos.png',
+            'assets/icon/logo_healmann-nobg.png',
             width: 40,
             height: 40,
           ),
         ),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue.shade100, const Color(0xFFFFFFFF)],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+        decoration: const BoxDecoration(
+          gradient: HealmanColors.primaryGradient,
         ),
         child: Align(
           alignment: Alignment.bottomCenter,
@@ -82,7 +79,7 @@ class _TentangKamiState extends State<TentangKami> {
                   ),
                   const SizedBox(height: 20),
                   Image.asset(
-                    'assets/icon/logo_polos.png',
+                    'assets/icon/logo_healmann.png',
                     width: 200,
                     height: 200,
                   ),

@@ -68,21 +68,23 @@ class ImprovedMBTICalculator {
       if (isReverse) {
         score = 6 - score; // Invert 1->5, 2->4, 3->3, 4->2, 5->1
         // Also invert the type for reverse questions
-        if (selectedType == 'E')
+        if (selectedType == 'E') {
           selectedType = 'I';
-        else if (selectedType == 'I')
+        } else if (selectedType == 'I') {
           selectedType = 'E';
-        else if (selectedType == 'S')
+        } else if (selectedType == 'S') {
           selectedType = 'N';
-        else if (selectedType == 'N')
+        } else if (selectedType == 'N') {
           selectedType = 'S';
-        else if (selectedType == 'T')
+        } else if (selectedType == 'T') {
           selectedType = 'F';
-        else if (selectedType == 'F')
+        } else if (selectedType == 'F') {
           selectedType = 'T';
-        else if (selectedType == 'J')
+        } else if (selectedType == 'J') {
           selectedType = 'P';
-        else if (selectedType == 'P') selectedType = 'J';
+        } else if (selectedType == 'P') {
+          selectedType = 'J';
+        }
       }
 
       // Add to dimension scores for consistency checking

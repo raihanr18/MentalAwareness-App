@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class ImprovedResultPage extends StatefulWidget {
   final Map<String, dynamic> results;
@@ -104,7 +104,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
                           colors: [
                             _getPersonalityColor(personalityType),
                             _getPersonalityColor(personalityType)
-                                .withOpacity(0.8),
+                                .withValues(alpha: 0.8),
                           ],
                         ),
                       ),
@@ -112,7 +112,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
                         child: Icon(
                           _getPersonalityIcon(personalityType),
                           size: 60,
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withValues(alpha: 0.3),
                         ),
                       ),
                     ),
@@ -176,13 +176,13 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
           end: Alignment.bottomRight,
           colors: [
             _getPersonalityColor(personalityType),
-            _getPersonalityColor(personalityType).withOpacity(0.8),
+            _getPersonalityColor(personalityType).withValues(alpha: 0.8),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: _getPersonalityColor(personalityType).withOpacity(0.3),
+            color: _getPersonalityColor(personalityType).withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -193,7 +193,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -260,7 +260,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -271,7 +271,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: color, size: 20),
@@ -310,7 +310,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -324,7 +324,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.purple.withOpacity(0.1),
+                  color: Colors.purple.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -398,7 +398,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
               decoration: BoxDecoration(
-                color: _getDimensionColor(dominantType).withOpacity(0.1),
+                color: _getDimensionColor(dominantType).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -462,7 +462,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -476,7 +476,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.orange.withOpacity(0.1),
+                  color: Colors.orange.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -522,7 +522,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -536,7 +536,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.indigo.withOpacity(0.1),
+                  color: Colors.indigo.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -600,9 +600,9 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
       margin: const EdgeInsets.only(bottom: 20),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -612,7 +612,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(icon, color: color, size: 16),
@@ -713,7 +713,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -727,7 +727,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -773,7 +773,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 15,
             offset: const Offset(0, 8),
           ),
@@ -787,7 +787,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: Colors.cyan.withOpacity(0.1),
+                  color: Colors.cyan.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: const Icon(
@@ -860,7 +860,7 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
               backgroundColor: Colors.blue.shade600,
               foregroundColor: Colors.white,
               elevation: 8,
-              shadowColor: Colors.blue.withOpacity(0.3),
+              shadowColor: Colors.blue.withValues(alpha: 0.3),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -1016,8 +1016,9 @@ class _ImprovedResultPageState extends State<ImprovedResultPage>
   }
 
   String _getPersonalityDescription(String? type) {
-    if (type == null)
+    if (type == null) {
       return 'Kepribadian yang unik dengan karakteristik khusus.';
+    }
 
     final descriptions = {
       'INTJ':

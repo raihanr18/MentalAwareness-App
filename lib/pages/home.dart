@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:healman_mental_awareness/controller/login_controller.dart';
 import 'package:healman_mental_awareness/pages/meditation/enhanced_meditation.dart';
@@ -10,6 +9,7 @@ import 'package:healman_mental_awareness/pages/quiz/improved_quiz_mbti.dart';
 import 'package:healman_mental_awareness/pages/user/profile.dart';
 import 'package:healman_mental_awareness/pages/mood/mood_tracker.dart';
 import 'package:healman_mental_awareness/pages/assessment/mental_health_assessment.dart';
+import 'package:healman_mental_awareness/utils/color_palette.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,6 +24,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    // Configure status bar for home page
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
+      ),
+    );
     _loadData();
   }
 
@@ -42,52 +50,59 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      body: SafeArea(
-        child: _pages[_selectedIndex],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.light,
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 20,
-              offset: const Offset(0, -5),
-            ),
-          ],
+      child: Scaffold(
+        backgroundColor: Colors.grey[50],
+        body: SafeArea(
+          child: _pages[_selectedIndex],
         ),
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: (index) => setState(() => _selectedIndex = index),
-          type: BottomNavigationBarType.fixed,
-          selectedItemColor: const Color(0xFF667eea),
-          unselectedItemColor: Colors.grey[400],
-          backgroundColor: Colors.white,
-          elevation: 0,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.self_improvement),
-              label: 'Meditasi',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.mood),
-              label: 'Suasana Hati',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.psychology),
-              label: 'Penilaian',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profil',
-            ),
-          ],
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 20,
+                offset: const Offset(0, -5),
+              ),
+            ],
+          ),
+          child: BottomNavigationBar(
+            currentIndex: _selectedIndex,
+            onTap: (index) => setState(() => _selectedIndex = index),
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: HealmanColors.growthGreen,
+            unselectedItemColor: HealmanColors.softGray,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Beranda',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.self_improvement),
+                label: 'Meditasi',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.mood),
+                label: 'Suasana Hati',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.psychology),
+                label: 'Penilaian',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profil',
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -101,11 +116,7 @@ class HomeContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-        ),
+        gradient: HealmanColors.primaryGradient,
       ),
       child: Column(
         children: [
@@ -114,7 +125,7 @@ class HomeContent extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(top: 20),
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: HealmanColors.ivoryWhite,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
@@ -180,7 +191,7 @@ class HomeContent extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               border: Border.all(color: Colors.white, width: 2),
             ),
             child: ClipOval(
@@ -210,7 +221,7 @@ class HomeContent extends StatelessWidget {
           style: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: Colors.black87,
+            color: HealmanColors.textCharcoal,
           ),
         ),
         const SizedBox(height: 16),
@@ -221,7 +232,7 @@ class HomeContent extends StatelessWidget {
                 'Meditasi',
                 'Temukan kedamaian',
                 Icons.self_improvement,
-                Colors.blue[300]!,
+                HealmanColors.growthGreen,
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -236,7 +247,7 @@ class HomeContent extends StatelessWidget {
                 'Lacak Suasana Hati',
                 'Catat mood harian',
                 Icons.favorite,
-                Colors.pink[300]!,
+                HealmanColors.hopefulPeach,
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -255,7 +266,7 @@ class HomeContent extends StatelessWidget {
                 'Penilaian',
                 'Cek kesehatan mental Anda',
                 Icons.psychology,
-                Colors.orange[300]!,
+                HealmanColors.serenityBlue,
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -270,7 +281,7 @@ class HomeContent extends StatelessWidget {
                 'Kuis MBTI',
                 'Temukan kepribadian Anda',
                 Icons.quiz,
-                Colors.purple[300]!,
+                HealmanColors.growthGreen,
                 () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -292,9 +303,9 @@ class HomeContent extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -303,7 +314,7 @@ class HomeContent extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.2),
+                color: color.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(icon, color: color, size: 24),
@@ -314,15 +325,15 @@ class HomeContent extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: Colors.black87,
+                color: HealmanColors.textCharcoal,
               ),
             ),
             const SizedBox(height: 4),
             Text(
               subtitle,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 12,
-                color: Colors.black54,
+                color: HealmanColors.textCharcoal.withValues(alpha: 0.7),
               ),
             ),
           ],
@@ -339,9 +350,9 @@ class HomeContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: const Text(
+              child: Text(
                 'Artikel Kesehatan Mental',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: Colors.black87,
@@ -396,7 +407,7 @@ class HomeContent extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 2),
                       ),
@@ -493,7 +504,7 @@ class HomeContent extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -558,7 +569,7 @@ class HomeContent extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),

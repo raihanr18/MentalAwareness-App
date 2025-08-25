@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:healman_mental_awareness/pages/news_portal.dart';
 import 'package:translator/translator.dart';
 import '../utils/color_palette.dart';
@@ -21,232 +20,191 @@ class _ViewArticleState extends State<ViewArticle> {
   @override
   void initState() {
     super.initState();
-    // Configure status bar for this page
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
     _translateContent();
   }
 
   @override
-  void dispose() {
-    // Reset status bar when leaving the page
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-      ),
-    );
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
-      child: Scaffold(
-        backgroundColor: HealmanColors.ivoryWhite,
-        appBar: AppBar(
-          title: Text(
-            widget.article.title,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: Colors.white,
-            ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+    return Scaffold(
+      backgroundColor: HealmanColors.ivoryWhite,
+      appBar: AppBar(
+        title: Text(
+          widget.article.title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
-          backgroundColor: HealmanColors.serenityBlue,
-          elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.white),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Gambar berita
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  widget.article.imageUrl,
-                  width: double.infinity,
-                  height: 200,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: double.infinity,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        color: HealmanColors.softGray,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(
-                        Icons.image_not_supported,
-                        size: 80,
-                        color: HealmanColors.textCharcoal,
-                      ),
-                    );
-                  },
-                ),
+        backgroundColor: HealmanColors.serenityBlue,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Gambar berita
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                widget.article.imageUrl,
+                width: double.infinity,
+                height: 200,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: HealmanColors.softGray,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.image_not_supported,
+                      size: 80,
+                      color: HealmanColors.textCharcoal,
+                    ),
+                  );
+                },
               ),
+            ),
 
-              const SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
-              // Judul berita
-              Text(
-                widget.article.title,
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: HealmanColors.textCharcoal,
-                  height: 1.4,
-                ),
+            // Judul berita
+            Text(
+              widget.article.title,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: HealmanColors.textCharcoal,
+                height: 1.4,
               ),
+            ),
 
-              const SizedBox(height: 12.0),
+            const SizedBox(height: 12.0),
 
-              // Metadata artikel
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: HealmanColors.serenityBlue.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.person,
-                      size: 16,
+            // Metadata artikel
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: HealmanColors.serenityBlue.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.person,
+                    size: 16,
+                    color: HealmanColors.serenityBlue,
+                  ),
+                  const SizedBox(width: 6),
+                  Text(
+                    'By ${widget.article.author}',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
                       color: HealmanColors.serenityBlue,
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      'By ${widget.article.author}',
+                  ),
+                  const SizedBox(width: 16),
+                  const Icon(
+                    Icons.access_time,
+                    size: 16,
+                    color: HealmanColors.serenityBlue,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      _formatUserFriendlyDate(widget.article.postedOn),
                       style: const TextStyle(
                         fontSize: 14,
-                        fontWeight: FontWeight.w500,
                         color: HealmanColors.serenityBlue,
                       ),
                     ),
-                    const SizedBox(width: 16),
-                    const Icon(
-                      Icons.access_time,
-                      size: 16,
-                      color: HealmanColors.serenityBlue,
-                    ),
-                    const SizedBox(width: 6),
-                    Expanded(
-                      child: Text(
-                        _formatUserFriendlyDate(widget.article.postedOn),
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: HealmanColors.serenityBlue,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
 
-              const SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
-              // Konten berita
-              _isTranslating
-                  ? const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  HealmanColors.serenityBlue),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              'Menerjemahkan konten...',
-                              style: TextStyle(
-                                color: HealmanColors.textCharcoal,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : (_translatedContent != null
-                      ? _buildMarkdownContent(_showFullContent
-                          ? _translatedContent!
-                          : _getTrimmedContent())
-                      : const Center(
-                          child: Text(
-                            'Konten sedang dimuat...',
+            // Konten berita
+            _isTranslating
+                ? const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                HealmanColors.serenityBlue),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Menerjemahkan konten...',
                             style: TextStyle(
                               color: HealmanColors.textCharcoal,
                               fontSize: 14,
                             ),
                           ),
-                        )),
+                        ],
+                      ),
+                    ),
+                  )
+                : _buildMarkdownContent(_showFullContent
+                    ? (_translatedContent ?? widget.article.content)
+                    : _getTrimmedContent()),
 
-              const SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
-              // Tombol "Show more"
-              if (_translatedContent != null &&
-                  _translatedContent!.length > 100)
-                Center(
-                  child: TextButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        _showFullContent = !_showFullContent;
-                      });
-                    },
-                    icon: Icon(
-                      _showFullContent ? Icons.expand_less : Icons.expand_more,
+            // Tombol "Show more"
+            if (widget.article.content.length > 100)
+              Center(
+                child: TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _showFullContent = !_showFullContent;
+                    });
+                  },
+                  icon: Icon(
+                    _showFullContent ? Icons.expand_less : Icons.expand_more,
+                    color: HealmanColors.serenityBlue,
+                  ),
+                  label: Text(
+                    _showFullContent
+                        ? 'Tampilkan lebih sedikit'
+                        : 'Tampilkan lebih banyak',
+                    style: const TextStyle(
                       color: HealmanColors.serenityBlue,
+                      fontWeight: FontWeight.w600,
                     ),
-                    label: Text(
-                      _showFullContent
-                          ? 'Tampilkan lebih sedikit'
-                          : 'Tampilkan lebih banyak',
-                      style: const TextStyle(
-                        color: HealmanColors.serenityBlue,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      backgroundColor:
-                          HealmanColors.serenityBlue.withValues(alpha: 0.1),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+                  ),
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        HealmanColors.serenityBlue.withValues(alpha: 0.1),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                 ),
+              ),
 
-              const SizedBox(height: 20),
-            ],
-          ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
     );
   }
 
   String _getTrimmedContent() {
-    if (_translatedContent == null) return '';
-
-    String content = _translatedContent!;
+    String content = _translatedContent ?? widget.article.content;
     if (content.length > 100 && !_showFullContent) {
       return '${content.substring(0, 100)}...';
     }
@@ -267,9 +225,7 @@ class _ViewArticleState extends State<ViewArticle> {
         _isTranslating = false;
       });
     } catch (e) {
-      // Jika gagal total, gunakan dictionary fallback minimal
       setState(() {
-        _translatedContent = _translateWithDictionary(widget.article.content);
         _isTranslating = false;
       });
     }
@@ -282,115 +238,11 @@ class _ViewArticleState extends State<ViewArticle> {
       // Detect bahasa dan terjemahkan jika bukan bahasa Indonesia
       var translation = await translator.translate(text, to: 'id');
 
-      // PASTIKAN hanya hasil terjemahan yang dikembalikan, bukan gabungan
-      String translatedText = translation.text;
-
-      // Bersihkan hasil terjemahan dari konten asli yang mungkin masih tersisa
-      translatedText = _cleanTranslatedContent(translatedText);
-
-      return translatedText;
+      return translation.text;
     } catch (e) {
       // Jika terjemahan gagal, gunakan dictionary fallback
       return _translateWithDictionary(text);
     }
-  }
-
-  String _cleanTranslatedContent(String translatedText) {
-    // Hapus HANYA kalimat bahasa Inggris yang benar-benar murni
-    List<String> lines = translatedText.split('\n');
-    List<String> cleanedLines = [];
-
-    for (String line in lines) {
-      String trimmedLine = line.trim();
-      if (trimmedLine.isEmpty) {
-        cleanedLines.add(line);
-        continue;
-      }
-
-      // Hanya skip baris yang benar-benar kalimat bahasa Inggris murni
-      if (_isPureEnglishSentence(trimmedLine)) {
-        continue; // SKIP hanya kalimat bahasa Inggris murni
-      }
-
-      cleanedLines.add(line);
-    }
-
-    return cleanedLines.join('\n');
-  }
-
-  bool _isPureEnglishSentence(String sentence) {
-    // Deteksi HANYA kalimat bahasa Inggris yang benar-benar murni
-    String lowerSentence = sentence.toLowerCase();
-
-    // HANYA pattern kalimat bahasa Inggris yang sangat spesifik dan pasti
-    List<String> pureEnglishPatterns = [
-      r'^having\s+a\s+break\s+from\s+reality\?\s*openai\s+thinks\s+you\s+should\s+take\s+a\s+break\.?$',
-      r'^accessing\s+treatment\s+in\s+an?\s+\w+\s+mental\s+health\s+facility\s+is\s+difficult\s*-?\s*but\s+getting\s+out\s+can\s+be\s+harder\.?$',
-      r'^read\s+more:?\s*https?://\S+$',
-      r'^source:?\s*https?://\S+$',
-      r'^disclaimer:?\s+.+$',
-      r'^copyright\s+\d+.+$',
-      r'^©\s*\d+.+$',
-    ];
-
-    // Cek apakah kalimat cocok dengan pattern bahasa Inggris murni
-    for (String pattern in pureEnglishPatterns) {
-      if (RegExp(pattern, caseSensitive: false).hasMatch(lowerSentence)) {
-        return true;
-      }
-    }
-
-    // Cek rasio kata bahasa Inggris HANYA untuk kalimat yang sangat pendek
-    List<String> words = lowerSentence.split(RegExp(r'\s+'));
-
-    // Jika kalimat terlalu panjang (>8 kata), kemungkinan besar sudah diterjemahkan
-    if (words.length > 8) {
-      return false;
-    }
-
-    int englishWordCount = 0;
-
-    // Daftar kata bahasa Inggris yang sangat umum dan spesifik
-    List<String> veryCommonEnglishWords = [
-      'having',
-      'break',
-      'from',
-      'reality',
-      'openai',
-      'thinks',
-      'you',
-      'should',
-      'take',
-      'accessing',
-      'treatment',
-      'mental',
-      'health',
-      'facility',
-      'difficult',
-      'getting',
-      'out',
-      'can',
-      'be',
-      'harder',
-      'the',
-      'and',
-      'is',
-      'are',
-      'was',
-      'were'
-    ];
-
-    for (String word in words) {
-      String cleanWord = word.replaceAll(RegExp(r'[^\w]'), '');
-      if (veryCommonEnglishWords.contains(cleanWord)) {
-        englishWordCount++;
-      }
-    }
-
-    // HANYA hapus jika 90% atau lebih kata adalah bahasa Inggris DAN kalimat pendek
-    return words.isNotEmpty &&
-        words.length <= 8 &&
-        (englishWordCount / words.length) >= 0.9;
   }
 
   String _translateWithDictionary(String text) {
